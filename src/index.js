@@ -1,11 +1,6 @@
-import { initTable, getTable } from "./game";
-
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
+import { activePiece, initTable, getTable } from "./game";
+import { startRender } from "./render";
 
 initTable();
 
-console.log(getTable());
-
-ctx.fillStyle = "#000";
-ctx.fillRect(0, 0, 270, 600);
+startRender();
