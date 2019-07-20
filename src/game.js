@@ -20,13 +20,21 @@ export function getTable() {
 class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
-
         this.blocks = getPieceCoords(this.type);
+    }
 
-        /*this.blocks = new Array(4);
+    moveSideways(direction) {
+        let doMove = true;
         for(let i = 0; i < 4; i++) {
-            this.blocks[i] = {x: 0, y: 0};
-        }*/
+            let newPos = this.blocks[i].x + direction;
+            if(newPos < 0 || newPos >= 10) doMove = false;
+        }
+
+        if(!doMove) return;
+
+        for(let i = 0; i < 4; i++) {
+            this.blocks[i].x += direction;
+        }
     }
 }
 
