@@ -9,5 +9,7 @@ function handleKeyEvent(event) {
         activePiece.moveSideways(-1);
     } else if(event.key == "ArrowRight") {
         activePiece.moveSideways(1);
+    } else if(event.key == "ArrowDown") {
+        activePiece.moveDown();
     }
 }

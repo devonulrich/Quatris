@@ -24,17 +24,26 @@ class ActivePiece {
     }
 
     moveSideways(direction) {
-        let doMove = true;
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].x + direction;
-            if(newPos < 0 || newPos >= 10) doMove = false;
+            if(newPos < 0 || newPos >= 10) return;
         }
-
-        if(!doMove) return;
 
         for(let i = 0; i < 4; i++) {
             this.blocks[i].x += direction;
         }
+    }
+
+    moveDown() {
+        for(let i = 0; i < 4; i++) {
+            let newPos = this.blocks[i].y + 1;
+            if(newPos == 20) return;//piece is at the bottom
+        }
+
+        for(let i = 0; i < 4; i++) {
+            this.blocks[i].y++;
+        }
+        console.log("hi");
     }
 }
 
