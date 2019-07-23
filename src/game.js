@@ -33,12 +33,15 @@ class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
         this.blocks = getPieceCoords(this.type);
+
+        lastDropTime = new Date().getTime();
     }
 
     moveSideways(direction) {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].x + direction;
             if(newPos < 0 || newPos >= 10) return;
+            if(table[newPos][this.blocks[i].y] != 0) return;
         }
 
         for(let i = 0; i < 4; i++) {
@@ -49,7 +52,11 @@ class ActivePiece {
     moveDown() {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].y + 1;
-            if(newPos == 20) return;//piece is at the bottom
+            if(newPos == 20 || table[this.blocks[i].x][newPos] != 0) {
+                //block below is either past the bottom or occupied
+                this.finalize();
+                return;
+            }
         }
 
         for(let i = 0; i < 4; i++) {
@@ -58,6 +65,18 @@ class ActivePiece {
         
         //reset the auto drop interval
         lastDropTime = new Date().getTime();
+    }
+
+    finalize() {
+        //sets the current active piece into place
+        //and generates a new active piece
+        for(let i = 0; i < 4; i++) {
+            let x = this.blocks[i].x;
+            let y = this.blocks[i].y;
+            table[x][y] = this.type;
+        }
+
+        activePiece = new ActivePiece();
     }
 }
 
