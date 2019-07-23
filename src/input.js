@@ -11,5 +11,7 @@ function handleKeyEvent(event) {
         activePiece.moveSideways(1);
     } else if(event.key == "ArrowDown") {
         activePiece.moveDown();
+    } else if(event.key == ' ') {
+        activePiece.drop();
     }
 }

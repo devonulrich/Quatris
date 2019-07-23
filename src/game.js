@@ -37,6 +37,7 @@ class ActivePiece {
         lastDropTime = new Date().getTime();
     }
 
+    //direction: 1 = to the right, -1 = to the left
     moveSideways(direction) {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].x + direction;
@@ -49,13 +50,15 @@ class ActivePiece {
         }
     }
 
+    //returns true if the piece successfully moved down
+    //returns false if something blocked the piece from moving (and finalize() was called)
     moveDown() {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].y + 1;
             if(newPos == 20 || table[this.blocks[i].x][newPos] != 0) {
                 //block below is either past the bottom or occupied
                 this.finalize();
-                return;
+                return false;
             }
         }
 
@@ -65,6 +68,15 @@ class ActivePiece {
         
         //reset the auto drop interval
         lastDropTime = new Date().getTime();
+        return true;
+    }
+
+    drop() {
+        //lower the piece as far as it will go
+
+        //this will also automatically generate the new piece
+        //by calling finalize
+        while(this.moveDown()) {}
     }
 
     finalize() {
