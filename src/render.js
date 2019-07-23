@@ -5,15 +5,7 @@ let ctx = canvas.getContext("2d");
 
 let interval;
 
-export function startRender() {
-    interval = setInterval(render, 1000 / 60);
-}
-
-export function stopRender() {
-    clearInterval(interval);
-}
-
-function render() {
+export function render() {
     //render the table
     let table = getTable();
     for(let x = 0; x < 10; x++) {

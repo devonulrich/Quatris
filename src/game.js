@@ -1,7 +1,11 @@
 //this code is in charge of the game logic and board for the player
+import { render } from "./render";
 
 let table;
 export let activePiece;
+
+const AUTO_DROP_INTERVAL = 1000;
+let lastDropTime = new Date().getTime();
 
 export function initTable() {
     table = new Array(10);
@@ -10,11 +14,19 @@ export function initTable() {
     }
 
     activePiece = new ActivePiece();
-    console.log(activePiece.blocks[0]);
 }
 
 export function getTable() {
     return table;
+}
+
+export function updateGame() {
+    render();
+
+    let currTime = new Date().getTime();
+    if(currTime - lastDropTime >= AUTO_DROP_INTERVAL) {
+        activePiece.moveDown();
+    }
 }
 
 class ActivePiece {
@@ -43,7 +55,9 @@ class ActivePiece {
         for(let i = 0; i < 4; i++) {
             this.blocks[i].y++;
         }
-        console.log("hi");
+        
+        //reset the auto drop interval
+        lastDropTime = new Date().getTime();
     }
 }
 
