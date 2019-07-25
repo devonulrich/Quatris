@@ -13,8 +13,6 @@ function handleKeyEvent(event) {
         activePiece.moveDown();
     } else if(event.key == ' ') {
         activePiece.dropFull();
-    } else if(event.key == 'x') {
-        console.log(activePiece.getDroppedObj());
     }
 }
 

@@ -18,6 +18,15 @@ export function render() {
         }
     }
 
+    //render the active piece's shadow
+    ctx.fillStyle = getColor(activePiece.type) + "80";//half opacity
+    let copyObj = activePiece.getDroppedObj();
+    for(let i = 0; i < 4; i++) {
+        let block = copyObj.blocks[i];
+        ctx.fillRect(block.x * 30, block.y * 30, 30, 30);
+        ctx.strokeRect(block.x * 30, block.y * 30, 30, 30);
+    }
+
     //render the active piece
     ctx.fillStyle = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {

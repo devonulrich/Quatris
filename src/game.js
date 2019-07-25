@@ -5,7 +5,6 @@ let table;
 export let activePiece;
 
 const AUTO_DROP_INTERVAL = 1000;
-let lastDropTime = new Date().getTime();
 
 export function initTable() {
     table = new Array(10);
@@ -14,7 +13,6 @@ export function initTable() {
     }
 
     activePiece = new ActivePiece();
-    lastDropTime = new Date().getTime();
 }
 
 export function getTable() {
@@ -25,7 +23,7 @@ export function updateGame() {
     render();
 
     let currTime = new Date().getTime();
-    if(currTime - lastDropTime >= AUTO_DROP_INTERVAL) {
+    if(currTime - activePiece.lastDropTime >= AUTO_DROP_INTERVAL) {
         activePiece.drop();
     }
 }
@@ -34,6 +32,7 @@ class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
         this.blocks = getPieceCoords(this.type);
+        this.lastDropTime = new Date().getTime();
     }
 
     //direction: 1 = to the right, -1 = to the left
@@ -66,7 +65,7 @@ class ActivePiece {
         }
         
         //reset the auto drop interval
-        lastDropTime = new Date().getTime();
+        this.lastDropTime = new Date().getTime();
         return true;
     }
 
@@ -112,7 +111,6 @@ class ActivePiece {
         }
 
         activePiece = new ActivePiece();
-        lastDropTime = new Date().getTime();
     }
 }
 
