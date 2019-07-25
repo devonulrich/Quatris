@@ -14,6 +14,7 @@ export function initTable() {
     }
 
     activePiece = new ActivePiece();
+    lastDropTime = new Date().getTime();
 }
 
 export function getTable() {
@@ -25,7 +26,7 @@ export function updateGame() {
 
     let currTime = new Date().getTime();
     if(currTime - lastDropTime >= AUTO_DROP_INTERVAL) {
-        activePiece.moveDown();
+        activePiece.drop();
     }
 }
 
@@ -33,8 +34,6 @@ class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
         this.blocks = getPieceCoords(this.type);
-
-        lastDropTime = new Date().getTime();
     }
 
     //direction: 1 = to the right, -1 = to the left
@@ -50,14 +49,14 @@ class ActivePiece {
         }
     }
 
+    //tries to move the piece one space downwards
     //returns true if the piece successfully moved down
-    //returns false if something blocked the piece from moving (and finalize() was called)
+    //returns false if something blocked the piece from moving
     moveDown() {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].y + 1;
             if(newPos == 20 || table[this.blocks[i].x][newPos] != 0) {
                 //block below is either past the bottom or occupied
-                this.finalize();
                 return false;
             }
         }
@@ -71,17 +70,41 @@ class ActivePiece {
         return true;
     }
 
+    //same thing as moveDown(), but automatically finalizes the piece if needed
     drop() {
-        //lower the piece as far as it will go
+        if(!this.moveDown()) {
+            this.finalize();
+            return false;
+        }
 
-        //this will also automatically generate the new piece
-        //by calling finalize
-        while(this.moveDown()) {}
+        return true;
     }
 
+    //drop the piece as far down as possible
+    dropFull() {
+        //this will also automatically generate the new piece
+        //by calling finalize
+        while(this.drop()) {}
+    }
+
+    //return a new Active Piece object that has been dropped all the way down
+    //used for rendering the shadow piece in the game
+    getDroppedObj() {
+        let newObj = new ActivePiece();
+        newObj.type = this.type;
+        newObj.blocks = [];
+        for(let i = 0; i < 4; i++) {
+            //copy coordinate object
+            newObj.blocks.push(Object.assign({}, this.blocks[i]));
+        }
+
+        while(newObj.moveDown()) {}
+        return newObj;
+    }
+
+    //set the current active piece into place
+    //and generates a new active piece
     finalize() {
-        //sets the current active piece into place
-        //and generates a new active piece
         for(let i = 0; i < 4; i++) {
             let x = this.blocks[i].x;
             let y = this.blocks[i].y;
@@ -89,6 +112,7 @@ class ActivePiece {
         }
 
         activePiece = new ActivePiece();
+        lastDropTime = new Date().getTime();
     }
 }
 

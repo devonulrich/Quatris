@@ -12,6 +12,9 @@ function handleKeyEvent(event) {
     } else if(event.key == "ArrowDown") {
         activePiece.moveDown();
     } else if(event.key == ' ') {
-        activePiece.drop();
+        activePiece.dropFull();
+    } else if(event.key == 'x') {
+        console.log(activePiece.getDroppedObj());
     }
 }
+
