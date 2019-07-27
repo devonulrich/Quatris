@@ -50,6 +50,7 @@ class ActivePiece {
         for(let i = 0; i < 4; i++) {
             this.blocks[i].x += direction;
         }
+        this.pivot.x += direction;
     }
 
     //rotates the piece depending on its pivot and restrictions
