@@ -48,6 +48,25 @@ class ActivePiece {
         }
     }
 
+    rotate() {
+        //get average coordinates for piece
+        //and use it as a pivot point
+        var centerX = 0;
+        var centerY = 0;
+        for(let i = 0; i < 4; i++) {
+            centerX += this.blocks[i].x;
+            centerY += this.blocks[i].y;
+        }
+        centerX = Math.round(centerX / 4.0);
+        centerY = Math.round(centerY / 4.0);
+
+        for(let i = 0; i < 4; i++) {
+            let tmp = this.blocks[i].x;
+            this.blocks[i].x = centerX - (this.blocks[i].y - centerY);
+            this.blocks[i].y = centerY + (tmp - centerX);
+        }
+    }
+
     //tries to move the piece one space downwards
     //returns true if the piece successfully moved down
     //returns false if something blocked the piece from moving
