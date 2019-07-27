@@ -146,15 +146,15 @@ function getPieceCoords(type) {
                 {x: 4, y: 1},
                 {x: 5, y: 1}];
     case 3:
-        return [{x: 3, y: 1},
-                {x: 4, y: 1},
-                {x: 5, y: 1},
-                {x: 5, y: 0}];
-	case 4:
-		return [{x: 3, y: 0},
+        return [{x: 3, y: 0},
                 {x: 3, y: 1},
                 {x: 4, y: 1},
                 {x: 5, y: 1}];
+	case 4:
+		return [{x: 3, y: 1},
+                {x: 4, y: 1},
+                {x: 5, y: 1},
+                {x: 5, y: 0}];
 	case 5:
         return [{x: 3, y: 0},
                 {x: 4, y: 0},
