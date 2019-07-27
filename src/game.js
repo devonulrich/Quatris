@@ -31,7 +31,11 @@ export function updateGame() {
 class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
-        this.blocks = getPieceCoords(this.type);
+        this.blocks = getPiece(this.type);
+
+        this.pivot = getPivot(this.type);
+        this.isRotated = false;
+
         this.lastDropTime = new Date().getTime();
     }
 
@@ -48,23 +52,21 @@ class ActivePiece {
         }
     }
 
+    //rotates the piece depending on its pivot and restrictions
     rotate() {
-        //get average coordinates for piece
-        //and use it as a pivot point
-        var centerX = 0;
-        var centerY = 0;
-        for(let i = 0; i < 4; i++) {
-            centerX += this.blocks[i].x;
-            centerY += this.blocks[i].y;
-        }
-        centerX = Math.round(centerX / 4.0);
-        centerY = Math.round(centerY / 4.0);
+        let centerX = this.pivot.x;
+        let centerY = this.pivot.y;
 
+        //mult is used for flipping directions, if needed (based on this.pivot.limit)
+        let mult = (this.isRotated && this.pivot.limit) ? -1 : 1;
         for(let i = 0; i < 4; i++) {
             let tmp = this.blocks[i].x;
-            this.blocks[i].x = centerX - (this.blocks[i].y - centerY);
-            this.blocks[i].y = centerY + (tmp - centerX);
+            this.blocks[i].x = Math.floor(centerX - (this.blocks[i].y - centerY)*mult);
+            this.blocks[i].y = Math.floor(centerY + (tmp - centerX)*mult);
         }
+
+        //flip rotated
+        this.isRotated = !this.isRotated;
     }
 
     //tries to move the piece one space downwards
@@ -82,6 +84,7 @@ class ActivePiece {
         for(let i = 0; i < 4; i++) {
             this.blocks[i].y++;
         }
+        this.pivot.y++;
         
         //reset the auto drop interval
         this.lastDropTime = new Date().getTime();
@@ -133,7 +136,7 @@ class ActivePiece {
     }
 }
 
-function getPieceCoords(type) {
+function getPiece(type) {
     switch(type) {
     case 1:
         return [{x: 3, y: 1},
@@ -171,5 +174,22 @@ function getPieceCoords(type) {
                 {x: 4, y: 1},
                 {x: 5, y: 0},
                 {x: 5, y: 1}];
+    }
+}
+
+//when limit is true, then the block can only move
+//back and forth between two rotations (the rotation button will
+//flip between clockwise and counterclockwise). Otherwise,
+//the piece will continuously rotate clockwise
+function getPivot(type) {
+    switch(type) {
+    case 1: return {x: 4, y: 1, limit: true};
+    case 2: return {x: 4, y: 1, limit: true};
+    case 3: return {x: 4, y: 1, limit: false};
+    case 4: return {x: 4, y: 1, limit: false};
+    case 5: return {x: 4, y: 0, limit: true};
+    case 6: return {x: 4, y: 1, limit: false};
+    default:
+    case 7: return {x: 4.5, y: 0.5, limit: true};
     }
 }
