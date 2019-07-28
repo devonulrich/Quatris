@@ -66,6 +66,14 @@ class ActivePiece {
     }
 
     //direction: 1 = to the right, -1 = to the left
+    forceMoveSideways(direction) {
+        for(let i = 0; i < 4; i++) {
+            this.blocks[i].x += direction;
+        }
+        this.pivot.x += direction;
+    }
+
+    //does not move the piece if something is in the way
     moveSideways(direction) {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].x + direction;
@@ -73,10 +81,29 @@ class ActivePiece {
             if(table[newPos][this.blocks[i].y] != 0) return;
         }
 
-        for(let i = 0; i < 4; i++) {
-            this.blocks[i].x += direction;
+        this.forceMoveSideways(direction);
+    }
+
+    //move the piece up until it is not colliding with any blocks
+    autoMoveUp() {
+        while(true) {
+            //make sure the piece isn't "clear" of any blocks
+            let clear = true;
+            for(let i = 0; i < 4; i++) {
+                if(table[this.blocks[i].x][this.blocks[i].y] != 0 &&
+                    this.blocks[i].y >= 0) {
+                    clear = false;
+                    break;
+                }
+            }
+            if(clear) return;
+
+            //move the piece up one and repeat
+            for(let i = 0; i < 4; i++) {
+                this.blocks[i].y--;
+            }
+            this.pivot.y--;
         }
-        this.pivot.x += direction;
     }
 
     //rotates the piece depending on its pivot and restrictions
@@ -90,6 +117,16 @@ class ActivePiece {
             this.blocks[i].y = Math.floor(centerY + (tmp - centerX)* this.direction);
         }
 
+        //move the piece in bounds, if necessary
+        for(let i = 0; i < 4; i++) {
+            if(this.blocks[i].x < 0) {
+                this.forceMoveSideways(-this.blocks[i].x);
+            } else if(this.blocks[i].x > 9) {
+                this.forceMoveSideways(9 - this.blocks[i].x);
+            }
+        }
+        this.autoMoveUp();
+
         this.turns += this.direction;
         if(this.pivot.limit && this.turns == 1) this.direction = -1;
         if(this.pivot.limit && this.turns == -1) this.direction = 1;
@@ -101,7 +138,9 @@ class ActivePiece {
     moveDown() {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].y + 1;
-            if(newPos == 20 || table[this.blocks[i].x][newPos] != 0) {
+            if(newPos < 0) {
+                continue;
+            } else if(newPos == 20 || table[this.blocks[i].x][newPos] != 0) {
                 //block below is either past the bottom or occupied
                 return false;
             }
