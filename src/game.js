@@ -34,7 +34,8 @@ class ActivePiece {
         this.blocks = getPiece(this.type);
 
         this.pivot = getPivot(this.type);
-        this.isRotated = false;
+        this.direction = 1;
+        this.turns = 0;
 
         this.lastDropTime = new Date().getTime();
     }
@@ -58,13 +59,15 @@ class ActivePiece {
         let centerX = this.pivot.x;
         let centerY = this.pivot.y;
 
-        //mult is used for flipping directions, if needed (based on this.pivot.limit)
-        let mult = (this.isRotated && this.pivot.limit) ? -1 : 1;
         for(let i = 0; i < 4; i++) {
             let tmp = this.blocks[i].x;
-            this.blocks[i].x = Math.floor(centerX - (this.blocks[i].y - centerY)*mult);
-            this.blocks[i].y = Math.floor(centerY + (tmp - centerX)*mult);
+            this.blocks[i].x = Math.floor(centerX - (this.blocks[i].y - centerY)* this.direction);
+            this.blocks[i].y = Math.floor(centerY + (tmp - centerX)* this.direction);
         }
+
+        this.turns += this.direction;
+        if(this.pivot.limit && this.turns == 1) this.direction = -1;
+        if(this.pivot.limit && this.turns == -1) this.direction = 1;
 
         //flip rotated
         this.isRotated = !this.isRotated;
