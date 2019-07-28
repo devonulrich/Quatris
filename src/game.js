@@ -28,6 +28,31 @@ export function updateGame() {
     }
 }
 
+//checks the table for any lines that need to be cleared
+function checkTable() {
+    for(let y = 0; y < 20; y++) {
+        let isFullRow = true;
+        for(let x = 0; x < 10; x++) {
+            if(table[x][y] == 0) {
+                isFullRow = false;
+                break;
+            }
+        }
+
+        if(isFullRow) {
+            //must clear this line
+            clearLine(y);
+        }
+    }
+}
+
+function clearLine(y) {
+    for(let x = 0; x < 10; x++) {
+        table[x].splice(y, 1);
+        table[x].unshift(0);
+    }
+}
+
 class ActivePiece {
     constructor() {
         this.type = Math.floor(Math.random() * 7 + 1);
@@ -68,9 +93,6 @@ class ActivePiece {
         this.turns += this.direction;
         if(this.pivot.limit && this.turns == 1) this.direction = -1;
         if(this.pivot.limit && this.turns == -1) this.direction = 1;
-
-        //flip rotated
-        this.isRotated = !this.isRotated;
     }
 
     //tries to move the piece one space downwards
@@ -135,6 +157,8 @@ class ActivePiece {
             let y = this.blocks[i].y;
             table[x][y] = this.type;
         }
+
+        checkTable();
 
         activePiece = new ActivePiece();
     }
