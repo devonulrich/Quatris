@@ -12,7 +12,7 @@ export function initInput() {
 
     left = new Key();
     right = new Key();
-    up = new Key();
+    up = new Key(Infinity);
     down = new Key();
     space = new Key();
 }
@@ -26,23 +26,37 @@ export function updateInput() {
 }
 
 class Key {
-    constructor() {
+    constructor(delay = 200) {
         this.pressed = false;
+        //timeout is the last time (in unix time (ms)) that
+        //query returned true
         this.timeout = 0;
+        //delay is how long before the key's action should be
+        //performed again. Default delay is 200 ms.
+        this.delay = delay;
     }
 
     setPressed(val) {
         this.pressed = val;
-        this.timeout = 0;
+
+        if(!val) this.timeout = 0;
     }
 
+    //check to see if the key's action should be processed
+    //it depends on whether or not the key is actually down,
+    //as well as other rules that have to do with the key's "delay"
     query() {
         if(!this.pressed) return false;
 
-        if(new Date().getTime() - this.timeout >= 150) {
+        if(this.timeout == 0) {
+            //first time keypress is being handled
             this.timeout = new Date().getTime();
             return true;
+        } else if(new Date().getTime() - this.timeout >= this.delay) {
+            //after initial delay -- always return true
+            return true;
         } else {
+            //must be in key delay period -- return false
             return false;
         }
     }
