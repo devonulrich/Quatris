@@ -1,5 +1,6 @@
 //this code is in charge of the game logic and board for the player
 import { render } from "./render";
+import { updateInput } from "./input";
 
 let table;
 export let activePiece;
@@ -20,6 +21,7 @@ export function getTable() {
 }
 
 export function updateGame() {
+    updateInput();
     render();
 
     let currTime = new Date().getTime();
