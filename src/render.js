@@ -1,11 +1,10 @@
 import { getTable, activePiece, reservedPiece } from "./game";
+import pieceImg from "./assets/1.png";
 
 const X_OFF = 150;//x-offset for the grid on the canvas
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-
-let interval;
 
 export function render() {
     //clear the screen
@@ -41,14 +40,17 @@ export function render() {
     //render the reserved piece
     ctx.fillStyle = "#222";
     ctx.fillRect(0, 0, 140, 140);
-    let xOff = (140 - reservedPiece.width * 30) / 2;
+    let img = new Image();
+    img.src = pieceImg;
+    ctx.drawImage(img, 0, 0);
+    /*let xOff = (140 - reservedPiece.width * 30) / 2;
     let yOff = (140 - reservedPiece.height * 30) / 2;
     ctx.fillStyle = getColor(reservedPiece.type);
     for(let i = 0; i < 4; i++) {
         let block = reservedPiece.blocks[i];
         ctx.fillRect(block.x * 30 + xOff, block.y * 30 + yOff, 30, 30);
         ctx.strokeRect(block.x * 30 + xOff, block.y * 30 + yOff, 30, 30);
-    }
+    }*/
 }
 
 function drawBlock(x, y, type) {
