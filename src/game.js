@@ -4,7 +4,7 @@ import { updateInput } from "./input";
 
 let table;
 export let activePiece;
-export let reservedPiece;
+export let reservedPieceType;
 
 const AUTO_DROP_INTERVAL = 1000;
 
@@ -15,16 +15,7 @@ export function initTable() {
     }
 
     activePiece = new ActivePiece();
-    //demo only -- to be changed immediately
-    reservedPiece = {
-        type: 1,
-        width: 3,
-        height: 2,
-        blocks: [{x: 0, y: 0},
-                 {x: 1, y: 0},
-                 {x: 1, y: 1},
-                 {x: 2, y: 1}]
-    };
+    reservedPieceType = 0;
 }
 
 export function getTable() {
@@ -212,6 +203,11 @@ class ActivePiece {
 
         checkTable();
 
+        activePiece = new ActivePiece();
+    }
+
+    reserve() {
+        reservedPieceType = this.type;
         activePiece = new ActivePiece();
     }
 }

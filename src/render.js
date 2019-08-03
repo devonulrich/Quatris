@@ -1,4 +1,4 @@
-import { getTable, activePiece, reservedPiece } from "./game";
+import { getTable, activePiece, reservedPieceType } from "./game";
 
 const imgPath = require.context("./assets");
 
@@ -50,7 +50,9 @@ export function render() {
     //render the reserved piece
     ctx.fillStyle = "#222";
     ctx.fillRect(0, 0, 140, 140);
-    ctx.drawImage(images[3], 0, 0);
+    if(reservedPieceType != 0) {
+         ctx.drawImage(images[reservedPieceType], 0, 0);
+    }
 }
 
 function drawBlock(x, y, type) {

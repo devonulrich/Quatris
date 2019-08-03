@@ -5,6 +5,7 @@ let right;
 let up;
 let down;
 let space;
+let c;
 
 export function initInput() {
     window.addEventListener("keydown", keyDown);
@@ -15,6 +16,7 @@ export function initInput() {
     up = new Key(Infinity);
     down = new Key();
     space = new Key();
+    c = new Key();
 }
 
 export function updateInput() {
@@ -23,6 +25,7 @@ export function updateInput() {
     if(up.query()) activePiece.rotate();
     if(down.query()) activePiece.moveDown();
     if(space.query()) activePiece.dropFull();
+    if(c.query()) activePiece.reserve();
 }
 
 class Key {
@@ -79,6 +82,8 @@ function keyDown(event) {
     case " ":
         space.setPressed(true);
         return;
+    case "c":
+        c.setPressed(true);
     }
 }
 
@@ -99,6 +104,8 @@ function keyUp(event) {
     case " ":
         space.setPressed(false);
         return;
+    case "c":
+        c.setPressed(false);
     }
 }
 
