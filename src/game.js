@@ -84,7 +84,8 @@ class ActivePiece {
         for(let i = 0; i < 4; i++) {
             let newPos = this.blocks[i].x + direction;
             if(newPos < 0 || newPos >= 10) return;
-            if(table[newPos][this.blocks[i].y] != 0) return;
+            if(this.blocks[i].y >= 0 && 
+                table[newPos][this.blocks[i].y] != 0) return;
         }
 
         this.forceMoveSideways(direction);
