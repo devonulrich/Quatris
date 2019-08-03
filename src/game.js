@@ -58,8 +58,8 @@ function clearLine(y) {
 }
 
 class ActivePiece {
-    constructor() {
-        this.type = Math.floor(Math.random() * 7 + 1);
+    constructor(type = -1) {
+        this.type = type == -1 ? Math.floor(Math.random() * 7 + 1) : type;
         this.blocks = getPiece(this.type);
 
         this.pivot = getPivot(this.type);
@@ -117,8 +117,9 @@ class ActivePiece {
 
         for(let i = 0; i < 4; i++) {
             let tmp = this.blocks[i].x;
-            this.blocks[i].x = Math.floor(centerX - (this.blocks[i].y - centerY)* this.direction);
-            this.blocks[i].y = Math.floor(centerY + (tmp - centerX)* this.direction);
+            this.blocks[i].x = Math.floor(centerX - (this.blocks[i].y - centerY)
+                * this.direction);
+            this.blocks[i].y = Math.floor(centerY + (tmp - centerX) * this.direction);
         }
 
         //move the piece in bounds, if necessary
@@ -207,8 +208,12 @@ class ActivePiece {
     }
 
     reserve() {
+        if(reservedPieceType != 0) {
+            activePiece = new ActivePiece(reservedPieceType);
+        } else {
+            activePiece = new ActivePiece();
+        }
         reservedPieceType = this.type;
-        activePiece = new ActivePiece();
     }
 }
 

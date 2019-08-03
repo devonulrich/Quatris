@@ -16,7 +16,7 @@ export function initInput() {
     up = new Key(Infinity);
     down = new Key();
     space = new Key();
-    c = new Key();
+    c = new Key(Infinity);
 }
 
 export function updateInput() {
