@@ -50,7 +50,7 @@ export function render() {
     //render the reserved piece
     ctx.fillStyle = "#222";
     ctx.fillRect(0, 0, 140, 140);
-    if(reservedPieceType != 0) {
+    if(reservedPieceType != -1) {
          ctx.drawImage(images[reservedPieceType], 0, 0);
     }
 }

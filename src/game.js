@@ -15,7 +15,7 @@ export function initTable() {
     }
 
     activePiece = new ActivePiece();
-    reservedPieceType = 0;
+    reservedPieceType = -1;
 }
 
 export function getTable() {
@@ -58,7 +58,7 @@ function clearLine(y) {
 }
 
 class ActivePiece {
-    constructor(type = -1) {
+    constructor(type = -1, canReserve = true) {
         this.type = type == -1 ? Math.floor(Math.random() * 7 + 1) : type;
         this.blocks = getPiece(this.type);
 
@@ -67,6 +67,8 @@ class ActivePiece {
         this.turns = 0;
 
         this.lastDropTime = new Date().getTime();
+
+        this.canReserve = canReserve;
     }
 
     //direction: 1 = to the right, -1 = to the left
@@ -208,11 +210,9 @@ class ActivePiece {
     }
 
     reserve() {
-        if(reservedPieceType != 0) {
-            activePiece = new ActivePiece(reservedPieceType);
-        } else {
-            activePiece = new ActivePiece();
-        }
+        if(!this.canReserve) return;
+
+        activePiece = new ActivePiece(reservedPieceType, false);
         reservedPieceType = this.type;
     }
 }
