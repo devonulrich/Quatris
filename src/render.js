@@ -1,4 +1,4 @@
-import { getTable, activePiece, reservedPieceType } from "./game";
+import { getTable, activePiece, reservedPieceType, upcomingTypes } from "./game";
 
 const imgPath = require.context("./assets");
 
@@ -52,6 +52,12 @@ export function render() {
     ctx.fillRect(0, 0, 140, 140);
     if(reservedPieceType != -1) {
          ctx.drawImage(images[reservedPieceType], 0, 0);
+    }
+
+    //render the upcoming pieces
+    ctx.fillRect(X_OFF + 300 + 10, 0, 140, 600);
+    for(let n = 0; n < 5; n++) {
+        ctx.drawImage(images[upcomingTypes[n]], X_OFF + 300 + 10, 120 * n - 15);
     }
 }
 

@@ -6,6 +6,8 @@ let table;
 export let activePiece;
 export let reservedPieceType;
 
+export let upcomingTypes = [];
+
 const AUTO_DROP_INTERVAL = 1000;
 
 export function initTable() {
@@ -16,6 +18,11 @@ export function initTable() {
 
     activePiece = new ActivePiece();
     reservedPieceType = -1;
+
+    //fill the upcoming array with random pieces
+    for(let n = 0; n < 5; n++) {
+        upcomingTypes.push(getRandomType());
+    }
 }
 
 export function getTable() {
@@ -57,9 +64,19 @@ function clearLine(y) {
     }
 }
 
+function getRandomType() {
+    return Math.floor(Math.random() * 7 + 1);
+}
+
+function getNextPiece() {
+    let n = upcomingTypes.shift();
+    upcomingTypes.push(getRandomType());
+    return n;
+}
+
 class ActivePiece {
     constructor(type = -1, canReserve = true) {
-        this.type = type == -1 ? Math.floor(Math.random() * 7 + 1) : type;
+        this.type = type == -1 ? getRandomType() : type;
         this.blocks = getPiece(this.type);
 
         this.pivot = getPivot(this.type);
@@ -207,13 +224,17 @@ class ActivePiece {
 
         checkTable();
 
-        activePiece = new ActivePiece();
+        activePiece = new ActivePiece(getNextPiece());
     }
 
     reserve() {
         if(!this.canReserve) return;
 
-        activePiece = new ActivePiece(reservedPieceType, false);
+        if(reservedPieceType == -1) {
+            activePiece = new ActivePiece(getNextPiece(), false);
+        } else {
+            activePiece = new ActivePiece(reservedPieceType, false);
+        }
         reservedPieceType = this.type;
     }
 }
