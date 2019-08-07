@@ -15,3 +15,9 @@ let io = socketio(server);
 io.on('connection', function(socket) {
     console.log("connected: " + socket.id);
 });
+
+setInterval(sendUpdate, 1000 / 30);
+
+function sendUpdate() {
+    io.emit("UPDATE", "test");
+}
