@@ -14,5 +14,5 @@ export function sendUpdate() {
 }
 
 function update(data) {
-    console.log("received update: " + data);
+    console.log("received update: " + data.players);
 }

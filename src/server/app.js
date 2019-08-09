@@ -15,24 +15,27 @@ let io = socketio(server);
 let gamedata = new Map();
 
 io.on('connection', function(socket) {
-    console.log("connected: " + socket.id);
+    //console.log("connected: " + socket.id);
 
     gamedata.set(socket.id, []);
 
     socket.on('disconnect', function() {
-        console.log("disconnected: " + socket.id);
+        //console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
     });
 
     socket.on("CL_UPDATE", function(data) {
-        console.log(socket.id + " sent update");
+        //console.log(socket.id + " sent update");
         gamedata.set(socket.id, data);
-        console.log(gamedata.get(socket.id));
     });
 });
 
 setInterval(sendUpdate, 1000 / 30);
 
 function sendUpdate() {
-    io.emit("UPDATE", "test");
+    let packet = {};
+    //probably not efficient -- research!
+    packet.players = Array.from(gamedata.keys());
+    packet.tables = Array.from(gamedata.values());
+    io.emit("UPDATE", packet);
 }
