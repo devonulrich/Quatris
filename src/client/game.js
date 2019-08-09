@@ -1,6 +1,7 @@
 //this code is in charge of the game logic and board for the player
 import { render } from "./render";
 import { updateInput } from "./input";
+import { sendUpdate } from "./networking";
 
 let table;
 export let activePiece;
@@ -225,6 +226,9 @@ class ActivePiece {
         checkTable();
 
         activePiece = new ActivePiece(getNextPiece());
+
+        //send update of table to server
+        sendUpdate();
     }
 
     reserve() {
