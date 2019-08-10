@@ -36,25 +36,23 @@ function renderMainTable() {
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             //add each block with its corresponding color
-            drawBlock(x, y, table[x][y]);
+            drawBlock(x, y, X_OFF, 0, F_SIZE, getColor(table[x][y]));
         }
     }
 
     //render the active piece's shadow
-    ctx.fillStyle = getColor(activePiece.type) + "80";//half opacity
+    let currColor = getColor(activePiece.type) + "80";//half opacity
     let copyObj = activePiece.getDroppedObj();
     for(let i = 0; i < 4; i++) {
         let block = copyObj.blocks[i];
-        ctx.fillRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
-        ctx.strokeRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
+        drawBlock(block.x, block.y, X_OFF, 0, F_SIZE, currColor);
     }
 
     //render the active piece
-    ctx.fillStyle = getColor(activePiece.type);
+    currColor = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {
         let block = activePiece.blocks[i];
-        ctx.fillRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
-        ctx.strokeRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
+        drawBlock(block.x, block.y, X_OFF, 0, F_SIZE, currColor);
     }
 }
 
@@ -89,18 +87,18 @@ function drawOpponent(startX, startY, table) {
     ctx.strokeStyle = "#000000";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
-            ctx.fillStyle = getColor(table[x][y]);
-            ctx.fillRect(x * S_SIZE + startX, y * S_SIZE + startY, S_SIZE, S_SIZE);
-            ctx.strokeRect(x * S_SIZE + startX, y * S_SIZE + startY, S_SIZE, S_SIZE);
+            drawBlock(x, y, startX, startY, S_SIZE, getColor(table[x][y]));
         }
     }
 }
 
-function drawBlock(x, y, type) {
+//x and y are the grid coordinates (not canvas coordinates)
+//xOff and yOff are the offsets of the entire grid
+function drawBlock(x, y, xOff, yOff, size, color) {
     ctx.strokeStyle = "#000000";
-    ctx.fillStyle = getColor(type);
-    ctx.fillRect(x * F_SIZE + X_OFF, y * F_SIZE, F_SIZE, F_SIZE);
-    ctx.strokeRect(x * F_SIZE + X_OFF, y * F_SIZE, F_SIZE, F_SIZE);
+    ctx.fillStyle = color;
+    ctx.fillRect(x * size + xOff, y * size + yOff, size, size);
+    ctx.strokeRect(x * size + xOff, y * size + yOff, size, size);
 }
 
 function getColor(type) {
