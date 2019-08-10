@@ -3,6 +3,9 @@ import { getOpponentTables } from "./opponents";
 
 const imgPath = require.context("./assets");
 
+const F_SIZE = 30;//full square side length
+const S_SIZE = 9;//small square side length
+
 const X_OFF = 150;//x-offset for the grid on the canvas
 
 let canvas = document.getElementById("canvas");
@@ -22,6 +25,12 @@ export function render() {
     ctx.fillStyle = "#333";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    renderMainTable();
+    renderSideBars();
+    renderOpponents();
+}
+
+function renderMainTable() {
     //render the table
     let table = getTable();
     for(let x = 0; x < 10; x++) {
@@ -36,18 +45,20 @@ export function render() {
     let copyObj = activePiece.getDroppedObj();
     for(let i = 0; i < 4; i++) {
         let block = copyObj.blocks[i];
-        ctx.fillRect(block.x * 30 + X_OFF, block.y * 30, 30, 30);
-        ctx.strokeRect(block.x * 30 + X_OFF, block.y * 30, 30, 30);
+        ctx.fillRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
+        ctx.strokeRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
     }
 
     //render the active piece
     ctx.fillStyle = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {
         let block = activePiece.blocks[i];
-        ctx.fillRect(block.x * 30 + X_OFF, block.y * 30, 30, 30);
-        ctx.strokeRect(block.x * 30 + X_OFF, block.y * 30, 30, 30);
+        ctx.fillRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
+        ctx.strokeRect(block.x * F_SIZE + X_OFF, block.y * F_SIZE, F_SIZE, F_SIZE);
     }
+}
 
+function renderSideBars() {
     //render the reserved piece
     ctx.fillStyle = "#222";
     ctx.fillRect(0, 0, 140, 140);
@@ -60,23 +71,27 @@ export function render() {
     for(let n = 0; n < 5; n++) {
         ctx.drawImage(images[upcomingTypes[n]], X_OFF + 300 + 10, 120 * n - 15);
     }
+}
 
-    //render the opponents
+function renderOpponents() {
     let opponentIt = getOpponentTables();
     let oppNum = 0;
     for(let opponent of opponentIt) {
-        renderOpponent(610 + oppNum * 110, 0, opponent);
+        //margin of 10px between each opponent screen
+        let x = 610 + (oppNum % 3) * (S_SIZE * 10 + 10);
+        let y = Math.floor(oppNum / 3) * (S_SIZE * 20 + 10);
+        drawOpponent(x, y, opponent);
         oppNum++;
     }
 }
 
-function renderOpponent(startX, startY, table) {
+function drawOpponent(startX, startY, table) {
     ctx.strokeStyle = "#000000";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             ctx.fillStyle = getColor(table[x][y]);
-            ctx.fillRect(x * 10 + startX, y * 10 + startY, 10, 10);
-            ctx.strokeRect(x * 10 + startX, y * 10 + startY, 10, 10);
+            ctx.fillRect(x * S_SIZE + startX, y * S_SIZE + startY, S_SIZE, S_SIZE);
+            ctx.strokeRect(x * S_SIZE + startX, y * S_SIZE + startY, S_SIZE, S_SIZE);
         }
     }
 }
@@ -84,8 +99,8 @@ function renderOpponent(startX, startY, table) {
 function drawBlock(x, y, type) {
     ctx.strokeStyle = "#000000";
     ctx.fillStyle = getColor(type);
-    ctx.fillRect(x * 30 + X_OFF, y * 30, 30, 30);
-    ctx.strokeRect(x * 30 + X_OFF, y * 30, 30, 30);
+    ctx.fillRect(x * F_SIZE + X_OFF, y * F_SIZE, F_SIZE, F_SIZE);
+    ctx.strokeRect(x * F_SIZE + X_OFF, y * F_SIZE, F_SIZE, F_SIZE);
 }
 
 function getColor(type) {
