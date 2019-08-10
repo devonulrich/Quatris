@@ -15,7 +15,7 @@ export function playerUpdate(id, data) {
 }
 
 //returns an iterator for the tables (not an array)
-export function getTables() {
+export function getOpponentTables() {
     return tables.values();
 }
 

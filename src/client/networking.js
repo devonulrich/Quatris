@@ -15,7 +15,3 @@ export function initNetworking() {
 export function sendUpdate() {
     socket.emit("CL_UPDATE", getTable());
 }
-
-function update(data) {
-    console.log("received update: " + data[1][1][19]);
-}

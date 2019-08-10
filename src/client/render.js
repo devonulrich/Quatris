@@ -1,4 +1,5 @@
 import { getTable, activePiece, reservedPieceType, upcomingTypes } from "./game";
+import { getOpponentTables } from "./opponents";
 
 const imgPath = require.context("./assets");
 
@@ -58,6 +59,25 @@ export function render() {
     ctx.fillRect(X_OFF + 300 + 10, 0, 140, 600);
     for(let n = 0; n < 5; n++) {
         ctx.drawImage(images[upcomingTypes[n]], X_OFF + 300 + 10, 120 * n - 15);
+    }
+
+    //render the opponents
+    let opponentIt = getOpponentTables();
+    let oppNum = 0;
+    for(let opponent of opponentIt) {
+        renderOpponent(610 + oppNum * 110, 0, opponent);
+        oppNum++;
+    }
+}
+
+function renderOpponent(startX, startY, table) {
+    ctx.strokeStyle = "#000000";
+    for(let x = 0; x < 10; x++) {
+        for(let y = 0; y < 20; y++) {
+            ctx.fillStyle = getColor(table[x][y]);
+            ctx.fillRect(x * 10 + startX, y * 10 + startY, 10, 10);
+            ctx.strokeRect(x * 10 + startX, y * 10 + startY, 10, 10);
+        }
     }
 }
 
