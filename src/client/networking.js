@@ -1,12 +1,15 @@
 import io from "socket.io-client";
 import { getTable } from "./game";
+import { playerJoin, playerLeave, playerUpdate } from "./opponents";
 
 let socket;
 
 export function initNetworking() {
     socket = io();
     console.log("connected to server");
-    socket.on("UPDATE", update);
+    socket.on("JOIN", playerJoin);
+    socket.on("UPDATE", data => playerUpdate(data[0], data[1]));
+    socket.on("LEAVE", playerLeave);
 }
 
 export function sendUpdate() {
@@ -14,5 +17,5 @@ export function sendUpdate() {
 }
 
 function update(data) {
-    console.log("received update: " + data.players);
+    console.log("received update: " + data[1][1][19]);
 }

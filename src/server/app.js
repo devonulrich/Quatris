@@ -19,23 +19,32 @@ io.on('connection', function(socket) {
 
     gamedata.set(socket.id, []);
 
+    socket.broadcast.emit("JOIN", socket.id);
+
     socket.on('disconnect', function() {
         //console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
+
+        socket.broadcast.emit("LEAVE", socket.id);
     });
 
     socket.on("CL_UPDATE", function(data) {
         //console.log(socket.id + " sent update");
         gamedata.set(socket.id, data);
+
+        //update all other players
+        socket.broadcast.emit("UPDATE", [socket.id, data]);
     });
 });
 
-setInterval(sendUpdate, 1000 / 30);
+/*setInterval(sendUpdate, 1000 / 30);
 
 function sendUpdate() {
     let packet = {};
     //probably not efficient -- research!
+    //maybe use broadcast when a a client sends an update:
+    //    just update all other clients with the new table
     packet.players = Array.from(gamedata.keys());
     packet.tables = Array.from(gamedata.values());
     io.emit("UPDATE", packet);
-}
+}*/
