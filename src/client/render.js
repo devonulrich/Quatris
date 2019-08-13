@@ -40,7 +40,7 @@ function renderMainTable() {
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             //add each block with its corresponding color
-            drawBlock(gCtx, x, y, 0, 0, F_SIZE, getColor(table[x][y]));
+            drawBlock(gCtx, x, y, F_SIZE, getColor(table[x][y]));
         }
     }
 
@@ -49,14 +49,14 @@ function renderMainTable() {
     let copyObj = activePiece.getDroppedObj();
     for(let i = 0; i < 4; i++) {
         let block = copyObj.blocks[i];
-        drawBlock(gCtx, block.x, block.y, 0, 0, F_SIZE, currColor);
+        drawBlock(gCtx, block.x, block.y, F_SIZE, currColor);
     }
 
     //render the active piece
     currColor = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {
         let block = activePiece.blocks[i];
-        drawBlock(gCtx, block.x, block.y, 0, 0, F_SIZE, currColor);
+        drawBlock(gCtx, block.x, block.y, F_SIZE, currColor);
     }
 }
 
@@ -92,14 +92,14 @@ function drawOpponent(startX, startY, table) {
     oCtx.strokeStyle = "#000000";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
-            drawBlock(oCtx, x, y, startX, startY, S_SIZE, getColor(table[x][y]));
+            drawBlock(oCtx, x, y, S_SIZE, getColor(table[x][y]), startX, startY);
         }
     }
 }
 
 //x and y are the grid coordinates (not canvas coordinates)
 //xOff and yOff are the offsets of the entire grid
-function drawBlock(ctx, x, y, xOff, yOff, size, color) {
+function drawBlock(ctx, x, y, size, color, xOff = 0, yOff = 0) {
     ctx.strokeStyle = "#000000";
     ctx.fillStyle = color;
     ctx.fillRect(x * size + xOff, y * size + yOff, size, size);
