@@ -6,10 +6,17 @@ const imgPath = require.context("./assets");
 const F_SIZE = 30;//full square side length
 const S_SIZE = 9;//small square side length
 
-const X_OFF = 150;//x-offset for the grid on the canvas
+let gameCanvas = document.getElementById("gameCanvas");
+let gCtx = gameCanvas.getContext("2d");
 
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
+let reservedCanvas = document.getElementById("reservedCanvas");
+let rCtx = reservedCanvas.getContext("2d");
+
+let upcomingCanvas = document.getElementById("upcomingCanvas");
+let uCtx = upcomingCanvas.getContext("2d");
+
+let opponentCanvas = document.getElementById("opponentCanvas");
+let oCtx = opponentCanvas.getContext("2d");
 
 //index 0 is never used
 let images = [undefined];
@@ -22,10 +29,6 @@ export function getImages() {
 }
 
 export function render() {
-    //clear the screen
-    ctx.fillStyle = "#333";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     renderMainTable();
     renderSideBars();
     renderOpponents();
@@ -37,7 +40,7 @@ function renderMainTable() {
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             //add each block with its corresponding color
-            drawBlock(x, y, X_OFF, 0, F_SIZE, getColor(table[x][y]));
+            drawBlock(gCtx, x, y, 0, 0, F_SIZE, getColor(table[x][y]));
         }
     }
 
@@ -46,29 +49,30 @@ function renderMainTable() {
     let copyObj = activePiece.getDroppedObj();
     for(let i = 0; i < 4; i++) {
         let block = copyObj.blocks[i];
-        drawBlock(block.x, block.y, X_OFF, 0, F_SIZE, currColor);
+        drawBlock(gCtx, block.x, block.y, 0, 0, F_SIZE, currColor);
     }
 
     //render the active piece
     currColor = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {
         let block = activePiece.blocks[i];
-        drawBlock(block.x, block.y, X_OFF, 0, F_SIZE, currColor);
+        drawBlock(gCtx, block.x, block.y, 0, 0, F_SIZE, currColor);
     }
 }
 
 function renderSideBars() {
     //render the reserved piece
-    ctx.fillStyle = "#222";
-    ctx.fillRect(0, 0, 140, 140);
+    rCtx.fillStyle = "#222";
+    rCtx.fillRect(0, 0, 140, 140);
     if(reservedPieceType != -1) {
-         ctx.drawImage(images[reservedPieceType], 0, 0);
+         rCtx.drawImage(images[reservedPieceType], 0, 0);
     }
 
     //render the upcoming pieces
-    ctx.fillRect(X_OFF + 300 + 10, 0, 140, 600);
+    uCtx.fillStyle = "#222";
+    uCtx.fillRect(0, 0, 140, 600);
     for(let n = 0; n < 5; n++) {
-        ctx.drawImage(images[upcomingTypes[n]], X_OFF + 300 + 10, 120 * n - 15);
+        uCtx.drawImage(images[upcomingTypes[n]], 0, 120 * n - 15);
     }
 }
 
@@ -77,7 +81,7 @@ function renderOpponents() {
     let oppNum = 0;
     for(let opponent of opponentIt) {
         //margin of 10px between each opponent screen
-        let x = 610 + (oppNum % 3) * (S_SIZE * 10 + 10);
+        let x = (oppNum % 3) * (S_SIZE * 10 + 10);
         let y = Math.floor(oppNum / 3) * (S_SIZE * 20 + 10);
         drawOpponent(x, y, opponent);
         oppNum++;
@@ -85,17 +89,17 @@ function renderOpponents() {
 }
 
 function drawOpponent(startX, startY, table) {
-    ctx.strokeStyle = "#000000";
+    oCtx.strokeStyle = "#000000";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
-            drawBlock(x, y, startX, startY, S_SIZE, getColor(table[x][y]));
+            drawBlock(oCtx, x, y, startX, startY, S_SIZE, getColor(table[x][y]));
         }
     }
 }
 
 //x and y are the grid coordinates (not canvas coordinates)
 //xOff and yOff are the offsets of the entire grid
-function drawBlock(x, y, xOff, yOff, size, color) {
+function drawBlock(ctx, x, y, xOff, yOff, size, color) {
     ctx.strokeStyle = "#000000";
     ctx.fillStyle = color;
     ctx.fillRect(x * size + xOff, y * size + yOff, size, size);
