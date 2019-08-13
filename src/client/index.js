@@ -13,5 +13,11 @@ initTable();
 initInput();
 initNetworking();
 
+//correct the opponent canvas if necessary
+let oppCanvas = document.getElementById("opponentCanvas");
+if(oppCanvas.width != oppCanvas.clientWidth) {
+    oppCanvas.width = oppCanvas.clientWidth;
+}
+
 //start game loop
 setInterval(updateGame, 1000 / 60);
