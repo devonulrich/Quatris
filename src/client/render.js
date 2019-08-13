@@ -11,6 +11,7 @@ const X_OFF = 150;//x-offset for the grid on the canvas
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+//index 0 is never used
 let images = [undefined];
 
 export function getImages() {
