@@ -21,6 +21,14 @@ io.on('connection', function(socket) {
 
     socket.broadcast.emit("JOIN", socket.id);
 
+    for(let id of gamedata.keys()) {
+        if(id == socket.id) continue;
+
+        socket.emit("JOIN", id);
+
+        console.log("sending id " + id);
+    }
+
     socket.on('disconnect', function() {
         //console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
