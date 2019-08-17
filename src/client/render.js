@@ -77,12 +77,15 @@ function renderSideBars() {
 }
 
 function renderOpponents() {
+    oCtx.fillStyle = "#234";
+    oCtx.fillRect(0, 0, opponentCanvas.width, opponentCanvas.height);
+
     let opponentIt = getOpponentTables();
     let oppNum = 0;
     for(let opponent of opponentIt) {
         //margin of 10px between each opponent screen
-        let x = (oppNum % 3) * (S_SIZE * 10 + 10);
-        let y = Math.floor(oppNum / 3) * (S_SIZE * 20 + 10);
+        let x = (oppNum % 3) * (S_SIZE * 10 + 10) + 10;
+        let y = Math.floor(oppNum / 3) * (S_SIZE * 20 + 10) + 10;
         drawOpponent(x, y, opponent);
         oppNum++;
     }

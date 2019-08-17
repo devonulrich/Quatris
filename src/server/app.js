@@ -25,8 +25,9 @@ io.on('connection', function(socket) {
         if(id == socket.id) continue;
 
         socket.emit("JOIN", id);
-
-        console.log("sending id " + id);
+        if(gamedata.get(id).length > 0) {
+            socket.emit("UPDATE", [id, gamedata.get(id)]);
+        }
     }
 
     socket.on('disconnect', function() {
