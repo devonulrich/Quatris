@@ -32,11 +32,72 @@
                 background: #222;
             }
 
-            #gameCanvas {
+            #gameContainer {
                 width: 300px;
                 height: 600px;
                 margin-right: 10px;
                 background: #222;
+            }
+
+            .gameItem {
+                width: 300px;
+                height: 600px;
+                margin: 0px;
+                padding: 0px;
+                position: absolute;
+            }
+
+            .overlay {
+                background: #00000080;
+            }
+
+            .invisible {
+                display: none;
+            }
+
+            .title {
+                width: 300px;
+                height: 100px;
+                margin: 30px 0px 0px 0px;
+                padding: 0px;
+                text-align: center;
+                font-family: monospace;
+                font-size: 60px;
+                color: #00FFFF;
+            }
+
+            #nameInput {
+                width: 150px;
+                height: 30px;
+                margin: 155px 75px 0px 75px;
+                padding: 0px;
+                border: 0px;
+                text-align: center;
+                font-size: 20px;
+                background: #234;
+                color: white;
+            }
+
+            #nameInput::placeholder {
+                color: #CCC;
+            }
+
+            #nameSubmit {
+                width: 100px;
+                height: 40px;
+                margin: 200px 100px 0px 100px;
+                padding: 0px;
+                border: 0px;
+                text-align: center;
+                font-family: monospace;
+                font-size: 20px;
+                background: #CCC;
+                color: #234;
+                cursor: pointer;
+            }
+
+            #nameSubmit:hover {
+                background: white;
             }
 
             #upcomingCanvas {
@@ -59,7 +120,14 @@
             <div class="justifyTop">
                 <canvas width=140 height=140 id="reservedCanvas"></canvas>
             </div>
-            <canvas width=300 height=600 id="gameCanvas"></canvas>
+            <div id="gameContainer">
+                <canvas width=300 height=600 class="gameItem" id="gameCanvas"></canvas>
+                <div class="gameItem overlay" id="nameScreen">
+                    <p class="title">Quatris</p>
+                    <input type="text" placeholder="Enter Name" autofocus id="nameInput">
+                    <button id="nameSubmit">Join</button>
+                </div>
+            </div>
             <canvas width=140 height=600 id="upcomingCanvas"></canvas>
             <canvas height=600 id="opponentCanvas"></canvas>
         </div>

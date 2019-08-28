@@ -4,7 +4,7 @@ import { getOpponentTables } from "./opponents";
 const imgPath = require.context("./assets");
 
 const F_SIZE = 30;//full square side length
-const S_SIZE = 9;//small square side length
+const S_SIZE = 12;//small square side length
 
 let gameCanvas = document.getElementById("gameCanvas");
 let gCtx = gameCanvas.getContext("2d");
@@ -82,6 +82,7 @@ function renderOpponents() {
 
     let opponentIt = getOpponentTables();
     let oppNum = 0;
+
     for(let opponent of opponentIt) {
         //margin of 10px between each opponent screen
         let x = (oppNum % 3) * (S_SIZE * 10 + 10) + 10;
