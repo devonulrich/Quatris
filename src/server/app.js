@@ -17,17 +17,14 @@ let gamedata = new Map();
 io.on('connection', function(socket) {
     //console.log("connected: " + socket.id);
 
-    gamedata.set(socket.id, []);
-
-    socket.broadcast.emit("JOIN", socket.id);
+    let client = new Client(socket.id);
+    gamedata.set(socket.id, client);
 
     for(let id of gamedata.keys()) {
         if(id == socket.id) continue;
 
-        socket.emit("JOIN", id);
-        if(gamedata.get(id).length > 0) {
-            socket.emit("UPDATE", [id, gamedata.get(id)]);
-        }
+        let cl = gamedata.get(id);
+        if(cl.isPlaying) socket.emit("JOIN", cl);
     }
 
     socket.on('disconnect', function() {
@@ -37,23 +34,23 @@ io.on('connection', function(socket) {
         socket.broadcast.emit("LEAVE", socket.id);
     });
 
-    socket.on("CL_UPDATE", function(data) {
-        //console.log(socket.id + " sent update");
-        gamedata.set(socket.id, data);
+    socket.on("NAME", function(name) {
+        client.name = name;
+        client.isPlaying = true;
+        socket.broadcast.emit("JOIN", client);
+    });
 
-        //update all other players
-        socket.broadcast.emit("UPDATE", [socket.id, data]);
+    socket.on("CL_UPDATE", function(data) {
+        client.data = data;
+        socket.broadcast.emit("UPDATE", client);
     });
 });
 
-/*setInterval(sendUpdate, 1000 / 30);
-
-function sendUpdate() {
-    let packet = {};
-    //probably not efficient -- research!
-    //maybe use broadcast when a a client sends an update:
-    //    just update all other clients with the new table
-    packet.players = Array.from(gamedata.keys());
-    packet.tables = Array.from(gamedata.values());
-    io.emit("UPDATE", packet);
-}*/
+class Client {
+    constructor(id) {
+        this.id = id;
+        this.name = undefined;
+        this.isPlaying = false;
+        this.data = [];
+    }
+}
