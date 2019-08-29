@@ -4,7 +4,8 @@ import { getOpponentTables } from "./opponents";
 const imgPath = require.context("./assets");
 
 const F_SIZE = 30;//full square side length
-const S_SIZE = 12;//small square side length
+export const S_SIZE = 13;//small square side length
+//S_SIZE is needed in ui.js for resizing the opponent canvas
 
 let gameCanvas = document.getElementById("gameCanvas");
 let gCtx = gameCanvas.getContext("2d");
@@ -89,8 +90,8 @@ function renderOpponents() {
 
     for(let opponent of opponentIt) {
         //margin of 10px between each opponent screen
-        let x = (oppNum % 4) * (S_SIZE * 10 + 10) + 10;
-        let y = Math.floor(oppNum / 4) * (S_SIZE * 20 + 30) + 10;
+        let x = Math.floor(oppNum / 2) * (S_SIZE * 10 + 10) + 10;
+        let y = (oppNum % 2) * 290 + 10;//just two rows
         drawOpponent(x, y, opponent.data);
 
         let xMid = x + S_SIZE * 5;

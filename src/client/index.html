@@ -17,12 +17,16 @@
                 justify-content: center;
                 align-items: center;
                 background: #345;
-                padding: 0px 50px 0px 50px;
+                padding: 0px 10px;
                 box-sizing: border-box;
             }
 
             .justifyTop {
                 height: 600px;
+            }
+
+            .noshrink {
+                flex-shrink: 0;
             }
 
             #reservedCanvas {
@@ -108,19 +112,19 @@
             }
 
             #opponentCanvas {
-                flex-grow: 1;
                 max-width: 600px;
                 height: 600px;
                 background: #234;
+                transition: all 0.25s;
             }
         </style>
     </head>
     <body>
         <div id="container">
-            <div class="justifyTop">
+            <div class="justifyTop noshrink">
                 <canvas width=140 height=140 id="reservedCanvas"></canvas>
             </div>
-            <div id="gameContainer">
+            <div class="noshrink" id="gameContainer">
                 <canvas width=300 height=600 class="gameItem" id="gameCanvas"></canvas>
                 <div class="gameItem overlay" id="nameScreen">
                     <p class="title">Quatris</p>
@@ -128,8 +132,8 @@
                     <button id="nameSubmit">Join</button>
                 </div>
             </div>
-            <canvas width=140 height=600 id="upcomingCanvas"></canvas>
-            <canvas height=600 id="opponentCanvas"></canvas>
+            <canvas width=140 height=600 class="noshrink" id="upcomingCanvas"></canvas>
+            <canvas height=600 class="noshrink" id="opponentCanvas"></canvas>
         </div>
     </body>
 </html>
