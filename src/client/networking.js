@@ -8,8 +8,12 @@ export function initNetworking() {
     socket = io();
     console.log("connected to server");
     socket.on("JOIN", playerJoin);
-    socket.on("UPDATE", data => playerUpdate(data[0], data[1]));
+    socket.on("UPDATE", playerUpdate);
     socket.on("LEAVE", playerLeave);
+}
+
+export function joinGame(username) {
+    socket.emit("NAME", username);
 }
 
 export function sendUpdate() {

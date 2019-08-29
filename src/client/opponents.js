@@ -1,28 +1,29 @@
 //handles storage and updating of the opponent boards
 
-let tables = new Map();
+let opponents = new Map();
 
-export function playerJoin(id) {
-    tables.set(id, emptyTable());
+export function playerJoin(player) {
+    opponents.set(player.id, player);
 }
 
 export function playerLeave(id) {
-    tables.delete(id);
+    opponents.delete(id);
 }
 
-export function playerUpdate(id, data) {
-    tables.set(id, data);
+export function playerUpdate(player) {
+    opponents.set(player.id, player);
+    console.log("update from " + player.name);
 }
 
 //returns an iterator for the tables (not an array)
 export function getOpponentTables() {
-    return tables.values();
+    return opponents.values();
 }
 
-function emptyTable() {
+/*function emptyTable() {
     let table = new Array(10);
     for(let x = 0; x < 10; x++) {
         table[x] = new Array(20).fill(0);
     }
     return table;
-}
+}*/

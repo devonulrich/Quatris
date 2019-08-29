@@ -2,6 +2,7 @@ import { activePiece, initTable, updateGame } from "./game";
 import { getImages } from "./render";
 import { initInput } from "./input";
 import { initNetworking } from "./networking";
+import { initUI } from "./ui";
 
 import io from "socket.io-client";
 
@@ -12,6 +13,7 @@ getImages();
 initTable();
 initInput();
 initNetworking();
+initUI();
 
 //correct the opponent canvas if necessary
 let oppCanvas = document.getElementById("opponentCanvas");

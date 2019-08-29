@@ -85,9 +85,13 @@ function renderOpponents() {
 
     for(let opponent of opponentIt) {
         //margin of 10px between each opponent screen
-        let x = (oppNum % 3) * (S_SIZE * 10 + 10) + 10;
-        let y = Math.floor(oppNum / 3) * (S_SIZE * 20 + 10) + 10;
-        drawOpponent(x, y, opponent);
+        let x = (oppNum % 4) * (S_SIZE * 10 + 10) + 10;
+        let y = Math.floor(oppNum / 4) * (S_SIZE * 20 + 30) + 10;
+        drawOpponent(x, y, opponent.data);
+
+        let xMid = x + S_SIZE * 5;
+        let yBot = y + S_SIZE * 20 + 15;
+        drawOpponentText(xMid, yBot, opponent.name);
         oppNum++;
     }
 }
@@ -99,6 +103,13 @@ function drawOpponent(startX, startY, table) {
             drawBlock(oCtx, x, y, S_SIZE, getColor(table[x][y]), startX, startY);
         }
     }
+}
+
+function drawOpponentText(x, y, text) {
+    oCtx.font = "15px Arial";
+    oCtx.textAlign = "center";
+    oCtx.fillStyle = "white";
+    oCtx.fillText(text, x, y);
 }
 
 //x and y are the grid coordinates (not canvas coordinates)

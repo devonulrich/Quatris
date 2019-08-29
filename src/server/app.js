@@ -20,6 +20,8 @@ io.on('connection', function(socket) {
     let client = new Client(socket.id);
     gamedata.set(socket.id, client);
 
+    //console.log(JSON.stringify(client));
+
     for(let id of gamedata.keys()) {
         if(id == socket.id) continue;
 
@@ -38,6 +40,8 @@ io.on('connection', function(socket) {
         client.name = name;
         client.isPlaying = true;
         socket.broadcast.emit("JOIN", client);
+
+        console.log(name + " joined");
     });
 
     socket.on("CL_UPDATE", function(data) {
@@ -51,6 +55,14 @@ class Client {
         this.id = id;
         this.name = undefined;
         this.isPlaying = false;
-        this.data = [];
+        this.data = this.emptyTable();
+    }
+
+    emptyTable() {
+        let table = new Array(10);
+        for(let x = 0; x < 10; x++) {
+            table[x] = new Array(20).fill(0);
+        }
+        return table;
     }
 }
