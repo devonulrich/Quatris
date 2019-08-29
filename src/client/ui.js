@@ -1,4 +1,5 @@
 import { joinGame } from "./networking";
+import { startPlaying } from "./game";
 
 let nameScreen;
 let nameInput;
@@ -15,4 +16,5 @@ export function initUI() {
 function nameSubmitClick() {
     nameScreen.classList.add("invisible");
     joinGame(nameInput.value);
+    startPlaying();
 }

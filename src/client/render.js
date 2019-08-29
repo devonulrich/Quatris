@@ -44,6 +44,8 @@ function renderMainTable() {
         }
     }
 
+    if(activePiece == undefined) return;
+
     //render the active piece's shadow
     let currColor = getColor(activePiece.type) + "80";//half opacity
     let copyObj = activePiece.getDroppedObj();
@@ -67,6 +69,8 @@ function renderSideBars() {
     if(reservedPieceType != -1) {
          rCtx.drawImage(images[reservedPieceType], 0, 0);
     }
+
+    if(upcomingTypes.length != 5) return;
 
     //render the upcoming pieces
     uCtx.fillStyle = "#222";

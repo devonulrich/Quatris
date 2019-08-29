@@ -5,25 +5,32 @@ import { sendUpdate } from "./networking";
 
 let table;
 export let activePiece;
-export let reservedPieceType;
+export let reservedPieceType = -1;
 
 export let upcomingTypes = [];
 
 const AUTO_DROP_INTERVAL = 1000;
+
+let isPlaying = false;
 
 export function initTable() {
     table = new Array(10);
     for(let x = 0; x < 10; x++) {
         table[x] = new Array(20).fill(0);
     }
+}
 
+export function startPlaying() {
+    initTable();
     activePiece = new ActivePiece();
     reservedPieceType = -1;
 
-    //fill the upcoming array with random pieces
+    //fill upcoming array with random pieces
     for(let n = 0; n < 5; n++) {
         upcomingTypes.push(getRandomType());
     }
+
+    isPlaying = true;
 }
 
 export function getTable() {
@@ -31,8 +38,10 @@ export function getTable() {
 }
 
 export function updateGame() {
-    updateInput();
     render();
+    if(!isPlaying) return;
+
+    updateInput();
 
     let currTime = new Date().getTime();
     if(currTime - activePiece.lastDropTime >= AUTO_DROP_INTERVAL) {
