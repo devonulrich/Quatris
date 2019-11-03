@@ -12,6 +12,7 @@ let server = app.listen(8080, () => console.log("running"));
 
 let io = socketio(server);
 
+//create new data structure?
 let gamedata = new Map();
 
 io.on('connection', function(socket) {
@@ -33,10 +34,11 @@ io.on('connection', function(socket) {
         //console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
 
-        socket.broadcast.emit("LEAVE", socket.id);
+        if(client.isPlaying) socket.broadcast.emit("LEAVE", socket.id);
     });
 
     socket.on("NAME", function(name) {
+        //properties of client change in the map too
         client.name = name;
         client.isPlaying = true;
         socket.broadcast.emit("JOIN", client);
