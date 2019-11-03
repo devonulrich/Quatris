@@ -15,6 +15,9 @@ let io = socketio(server);
 //create new data structure?
 let gamedata = new Map();
 
+let host = undefined;
+
+//TODO: split up into separate functions
 io.on('connection', function(socket) {
     //console.log("connected: " + socket.id);
 
@@ -23,16 +26,32 @@ io.on('connection', function(socket) {
 
     //console.log(JSON.stringify(client));
 
-    for(let id of gamedata.keys()) {
-        if(id == socket.id) continue;
+    if(host == undefined) {
+        host = socket.id;
+        client.isHost = true;
+        socket.emit("HOST", true);
+    } else {
+        for(let id of gamedata.keys()) {
+            if(id == socket.id) continue;
 
-        let cl = gamedata.get(id);
-        if(cl.isPlaying) socket.emit("JOIN", cl);
+            let cl = gamedata.get(id);
+            if(cl.isPlaying) socket.emit("JOIN", cl);
+        }
     }
 
     socket.on('disconnect', function() {
         //console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
+
+        if(client.isHost) {
+            // must replace host
+            if(gamedata.size == 0) {
+                host = undefined;
+            } else {
+                host = gamedata.keys().next().value;
+                io.to(host).emit("HOST", true);
+            }
+        }
 
         if(client.isPlaying) socket.broadcast.emit("LEAVE", socket.id);
     });
@@ -57,6 +76,7 @@ class Client {
         this.id = id;
         this.name = undefined;
         this.isPlaying = false;
+        this.isHost = false;
         this.data = this.emptyTable();
     }
 
