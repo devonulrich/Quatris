@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import { getTable } from "./game";
 import { playerJoin, playerLeave, playerUpdate } from "./opponents";
+import { setHost } from "./ui";
 
 let socket;
 
@@ -11,11 +12,6 @@ export function initNetworking() {
     socket.on("JOIN", playerJoin);
     socket.on("UPDATE", playerUpdate);
     socket.on("LEAVE", playerLeave);
-}
-
-function setHost() {
-    //TODO: replace with real code
-    console.log("You are now the host");
 }
 
 export function joinGame(username) {

@@ -104,6 +104,34 @@
                 background: white;
             }
 
+            .infoText {
+                width: 250px;
+                margin: 150px 25px 0px 25px;
+                padding: 0px;
+                text-align: center;
+                font-family: monospace;
+                font-size: 20px;
+                color: white;
+            }
+
+            #hostStart {
+                width: 100px;
+                height: 40px;
+                margin: 200px 100px 0px 100px;
+                padding: 0px;
+                border: 0px;
+                text-align: center;
+                font-family: monospace;
+                font-size: 20px;
+                background: #CCC;
+                color: #234;
+                cursor: pointer;
+            }
+
+            #hostStart:hover {
+                background: white;
+            }
+
             #upcomingCanvas {
                 width: 140px;
                 height: 600px;
@@ -130,6 +158,10 @@
                     <p class="title">Quatris</p>
                     <input type="text" placeholder="Enter Name" autofocus id="nameInput">
                     <button id="nameSubmit">Join</button>
+                </div>
+                <div class="gameItem overlay invisible" id="hostScreen">
+                    <p class="infoText">You are the host. Press Start when all players have joined.</p>
+                    <button id="hostStart">Start</button>
                 </div>
             </div>
             <canvas width=140 height=600 class="noshrink" id="upcomingCanvas"></canvas>

@@ -19,7 +19,7 @@ let host = undefined;
 
 //TODO: split up into separate functions
 io.on('connection', function(socket) {
-    //console.log("connected: " + socket.id);
+    console.log("connected: " + socket.id + ", host is " + host);
 
     let client = new Client(socket.id);
     gamedata.set(socket.id, client);
@@ -40,7 +40,7 @@ io.on('connection', function(socket) {
     }
 
     socket.on('disconnect', function() {
-        //console.log("disconnected: " + socket.id);
+        console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
 
         if(client.isHost) {
