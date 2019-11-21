@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { getTable } from "./game";
+import { startPlaying, getTable } from "./game";
 import { playerJoin, playerLeave, playerUpdate } from "./opponents";
 import { setHost } from "./ui";
 
@@ -10,12 +10,17 @@ export function initNetworking() {
     console.log("connected to server");
     socket.on("HOST", setHost);
     socket.on("JOIN", playerJoin);
+    socket.on("START", startPlaying);
     socket.on("UPDATE", playerUpdate);
     socket.on("LEAVE", playerLeave);
 }
 
 export function joinGame(username) {
     socket.emit("NAME", username);
+}
+
+export function hostStartGame() {
+    socket.emit("HOST_START", 0);
 }
 
 export function sendUpdate() {

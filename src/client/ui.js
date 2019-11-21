@@ -1,4 +1,4 @@
-import { joinGame } from "./networking";
+import { joinGame, hostStartGame } from "./networking";
 import { startPlaying } from "./game";
 import { getNumOpponents } from "./opponents";
 import { S_SIZE } from "./render";
@@ -34,8 +34,6 @@ function nameSubmitClick() {
     joinGame(nameInput.value);
     if(isHost) {
         showHostScreen();
-    } else {
-        startPlaying();
     }
 }
 
@@ -50,8 +48,7 @@ function showHostScreen() {
 
 function hostStartClick() {
     hostScreen.classList.add("invisible");
-    //TODO: add actual game syncing with networking.js
-    startPlaying();
+    hostStartGame();
 }
 
 export function updateOpponentWidth() {

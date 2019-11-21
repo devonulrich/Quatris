@@ -65,6 +65,11 @@ io.on('connection', function(socket) {
         console.log(name + " joined");
     });
 
+    socket.on("HOST_START", function() {
+        io.emit("START", Math.random());
+        console.log("game started");
+    });
+
     socket.on("CL_UPDATE", function(data) {
         client.data = data;
         socket.broadcast.emit("UPDATE", client);
