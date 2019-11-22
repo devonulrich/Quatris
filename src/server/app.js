@@ -61,12 +61,13 @@ io.on('connection', function(socket) {
         client.name = name;
         client.isPlaying = true;
         socket.broadcast.emit("JOIN", client);
+        socket.join("playingRoom");
 
         console.log(name + " joined");
     });
 
     socket.on("HOST_START", function() {
-        io.emit("START", Math.random());
+        io.to("playingRoom").emit("START", Math.random());
         console.log("game started");
     });
 

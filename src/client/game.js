@@ -1,4 +1,4 @@
-//this code is in charge of the game logic and board for the player
+import seedrandom from "seedrandom";
 import { render } from "./render";
 import { updateInput } from "./input";
 import { sendUpdate } from "./networking";
@@ -11,6 +11,8 @@ export let upcomingTypes = [];
 
 const AUTO_DROP_INTERVAL = 1000;
 
+let random;
+
 let isPlaying = false;
 
 export function initTable() {
@@ -20,7 +22,8 @@ export function initTable() {
     }
 }
 
-export function startPlaying() {
+export function startPlaying(seed) {
+    random = seedrandom(seed);
     initTable();
     activePiece = new ActivePiece();
     reservedPieceType = -1;
@@ -75,7 +78,7 @@ function clearLine(y) {
 }
 
 function getRandomType() {
-    return Math.floor(Math.random() * 7 + 1);
+    return Math.floor(random() * 7 + 1);
 }
 
 function getNextPiece() {
