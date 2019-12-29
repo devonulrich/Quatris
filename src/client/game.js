@@ -11,7 +11,7 @@ export let upcomingTypes = [];
 
 const AUTO_DROP_INTERVAL = 1000;
 
-let random;
+let randNumGen;
 
 let isPlaying = false;
 
@@ -23,9 +23,9 @@ export function initTable() {
 }
 
 export function startPlaying(seed) {
-    random = seedrandom(seed);
+    randNumGen = new seedrandom(seed);
     initTable();
-    activePiece = new ActivePiece();
+    activePiece = new ActivePiece(getRandomType());
     reservedPieceType = -1;
 
     //fill upcoming array with random pieces
@@ -78,7 +78,7 @@ function clearLine(y) {
 }
 
 function getRandomType() {
-    return Math.floor(random() * 7 + 1);
+    return Math.floor(randNumGen() * 7 + 1);
 }
 
 function getNextPiece() {
@@ -88,8 +88,8 @@ function getNextPiece() {
 }
 
 class ActivePiece {
-    constructor(type = -1, canReserve = true) {
-        this.type = type == -1 ? getRandomType() : type;
+    constructor(type, canReserve = true) {
+        this.type = type;
         this.blocks = getPiece(this.type);
 
         this.pivot = getPivot(this.type);
@@ -214,8 +214,7 @@ class ActivePiece {
     //return a new Active Piece object that has been dropped all the way down
     //used for rendering the shadow piece in the game
     getDroppedObj() {
-        let newObj = new ActivePiece();
-        newObj.type = this.type;
+        let newObj = new ActivePiece(this.type);
         newObj.blocks = [];
         for(let i = 0; i < 4; i++) {
             //copy coordinate object

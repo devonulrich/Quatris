@@ -49,6 +49,7 @@ io.on('connection', function(socket) {
                 host = undefined;
             } else {
                 host = gamedata.keys().next().value;
+                gamedata.get(host).isHost = true;
                 io.to(host).emit("HOST", true);
             }
         }
