@@ -13,6 +13,7 @@ let hostStart;
 let opponentCanvas;
 
 let isHost = false;
+let isJoined = false;
 
 export function initUI() {
     nameScreen = document.getElementById("nameScreen");
@@ -32,6 +33,7 @@ export function initUI() {
 function nameSubmitClick() {
     nameScreen.classList.add("invisible");
     joinGame(nameInput.value);
+    isJoined = true;
     if(isHost) {
         showHostScreen();
     }
@@ -40,6 +42,7 @@ function nameSubmitClick() {
 export function setHost() {
     console.log("You are now the host");
     isHost = true;
+    if(isJoined) showHostScreen();
 }
 
 function showHostScreen() {
