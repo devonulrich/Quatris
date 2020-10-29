@@ -8,7 +8,7 @@ const middleware = require('webpack-dev-middleware');
 
 let compiler = webpack(webpackConfig);
 app.use(middleware(compiler));
-let server = app.listen(8080, () => console.log("running"));
+let server = app.listen(3000, () => console.log("running"));
 
 let io = socketio(server);
 

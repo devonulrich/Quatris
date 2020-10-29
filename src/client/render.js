@@ -65,8 +65,13 @@ function renderMainTable() {
 
 function renderSideBars() {
     //render the reserved piece
-    rCtx.fillStyle = "#222";
+    rCtx.fillStyle = "#000";
     rCtx.fillRect(0, 0, 140, 140);
+    rCtx.strokeStyle = "#333";
+    rCtx.lineWidth = "7";
+    rCtx.beginPath();
+    rCtx.rect(0, 0, 140, 140);
+    rCtx.stroke();
     if(reservedPieceType != -1) {
          rCtx.drawImage(images[reservedPieceType], 0, 0);
     }
@@ -82,8 +87,13 @@ function renderSideBars() {
 }
 
 function renderOpponents() {
-    oCtx.fillStyle = "#234";
+    oCtx.fillStyle = "#000";
     oCtx.fillRect(0, 0, opponentCanvas.width, opponentCanvas.height);
+    oCtx.strokeStyle = "#555";
+    oCtx.lineWidth = "7";
+    oCtx.beginPath();
+    oCtx.rect(0, 0, opponentCanvas.width, opponentCanvas.height);
+    oCtx.stroke();
 
     let opponentIt = getOpponentTables();
     let oppNum = 0;
@@ -103,6 +113,7 @@ function renderOpponents() {
 
 function drawOpponent(startX, startY, table) {
     oCtx.strokeStyle = "#000000";
+    oCtx.lineWidth = "1";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             drawBlock(oCtx, x, y, S_SIZE, getColor(table[x][y]), startX, startY);
@@ -134,5 +145,5 @@ function getColor(type) {
     if(type == 5) return "#00FFFF";//cyan
     if(type == 6) return "#FF00FF";//pink
     if(type == 7) return "#FFFF00";//yellow
-    return "#222";//black - default
+    return "#333";//black - default
 }
