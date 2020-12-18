@@ -11,13 +11,13 @@ html,body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background: #000;
+    background: #fff;
     padding: 0px 10px;
     box-sizing: border-box;
 }
 
 .justifyTop {
-    height: 600px;
+    height: 606px;
 }
 
 .noshrink {
@@ -28,14 +28,16 @@ html,body {
     width: 140px;
     height: 140px;
     margin-right: 10px;
-    background: #333;
+    background: #404545;
+    border: 3px solid #123;
 }
 
 #gameContainer {
     width: 300px;
     height: 600px;
     margin-right: 10px;
-    background: #333;
+    background: #404545;
+    border: 3px solid #123;
 }
 
 .gameItem {
@@ -62,7 +64,7 @@ html,body {
     text-align: center;
     font-family: monospace;
     font-size: 60px;
-    color: #00FFFF;
+    color: #00FF99;
 }
 
 #nameInput {
@@ -70,15 +72,15 @@ html,body {
     height: 30px;
     margin: 155px 75px 0px 75px;
     padding: 0px;
-    border: 0px;
+    border: 1px solid white;
     text-align: center;
     font-size: 20px;
-    background: #444;
-    color: white;
+    background: #ccc;
+    color: #123;
 }
 
 #nameInput::placeholder {
-    color: #CCC;
+    color: #567;
 }
 
 #nameSubmit {
@@ -90,13 +92,13 @@ html,body {
     text-align: center;
     font-family: monospace;
     font-size: 20px;
-    background: #CCC;
-    color: #234;
+    background: #0099FF;
+    color: #123;
     cursor: pointer;
 }
 
 #nameSubmit:hover {
-    background: white;
+    background: #0BF;
 }
 
 .infoText {
@@ -118,25 +120,27 @@ html,body {
     text-align: center;
     font-family: monospace;
     font-size: 20px;
-    background: #CCC;
-    color: #234;
+    background: #09F;
+    color: #123;
     cursor: pointer;
 }
 
 #hostStart:hover {
-    background: white;
+    background: #0BF;
 }
 
 #upcomingCanvas {
     width: 140px;
     height: 600px;
     margin-right: 10px;
-    background: #333;
+    background: #414848;
+    border: 3px solid #123;
 }
 
 #opponentCanvas {
     max-width: 600px;
     height: 600px;
-    background: #333;
+    background: #DDD;
+    border: 3px solid #123;
     transition: all 0.25s;
 }

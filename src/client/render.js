@@ -65,13 +65,8 @@ function renderMainTable() {
 
 function renderSideBars() {
     //render the reserved piece
-    rCtx.fillStyle = "#000";
+    rCtx.fillStyle = "#414848";
     rCtx.fillRect(0, 0, 140, 140);
-    rCtx.strokeStyle = "#333";
-    rCtx.lineWidth = "7";
-    rCtx.beginPath();
-    rCtx.rect(0, 0, 140, 140);
-    rCtx.stroke();
     if(reservedPieceType != -1) {
          rCtx.drawImage(images[reservedPieceType], 0, 0);
     }
@@ -79,7 +74,7 @@ function renderSideBars() {
     if(upcomingTypes.length != 5) return;
 
     //render the upcoming pieces
-    uCtx.fillStyle = "#222";
+    uCtx.fillStyle = "#414848";
     uCtx.fillRect(0, 0, 140, 600);
     for(let n = 0; n < 5; n++) {
         uCtx.drawImage(images[upcomingTypes[n]], 0, 120 * n - 15);
@@ -87,13 +82,8 @@ function renderSideBars() {
 }
 
 function renderOpponents() {
-    oCtx.fillStyle = "#000";
+    oCtx.fillStyle = "#DDD";
     oCtx.fillRect(0, 0, opponentCanvas.width, opponentCanvas.height);
-    oCtx.strokeStyle = "#555";
-    oCtx.lineWidth = "7";
-    oCtx.beginPath();
-    oCtx.rect(0, 0, opponentCanvas.width, opponentCanvas.height);
-    oCtx.stroke();
 
     let opponentIt = getOpponentTables();
     let oppNum = 0;
@@ -124,7 +114,7 @@ function drawOpponent(startX, startY, table) {
 function drawOpponentText(x, y, text) {
     oCtx.font = "15px Arial";
     oCtx.textAlign = "center";
-    oCtx.fillStyle = "white";
+    oCtx.fillStyle = "#123";
     oCtx.fillText(text, x, y);
 }
 
@@ -138,12 +128,15 @@ function drawBlock(ctx, x, y, size, color, xOff = 0, yOff = 0) {
 }
 
 function getColor(type) {
-    if(type == 1) return "#FF0000";//red
-    if(type == 2) return "#00FF00";//green
-    if(type == 3) return "#0000FF";//blue
-    if(type == 4) return "#FF7700";//orange
-    if(type == 5) return "#00FFFF";//cyan
-    if(type == 6) return "#FF00FF";//pink
-    if(type == 7) return "#FFFF00";//yellow
-    return "#333";//black - default
+    /* NOTE: color strings must be in full 6-digit form.
+     * This is so the shadow pieces can be drawn with a new
+     * opacity appended onto the strings */
+    if(type == 1) return "#FF5555";//red
+    if(type == 2) return "#00FF99";//green
+    if(type == 3) return "#0099FF";//blue
+    if(type == 4) return "#FFAA44";//orange
+    if(type == 5) return "#66FFFF";//cyan
+    if(type == 6) return "#FF66FF";//pink
+    if(type == 7) return "#FFFF66";//yellow
+    return "#404545";//black - default
 }
