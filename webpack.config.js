@@ -18,8 +18,12 @@ module.exports = {
                         name: "./assets/[hash].[ext]"
                     }
                 }
-            }
-        ]
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+        ],
     },
     devServer: {
         contentBase: './dist'

@@ -1,3 +1,5 @@
+import "./index.css";
+
 import { activePiece, initTable, updateGame } from "./game";
 import { getImages } from "./render";
 import { initInput } from "./input";
