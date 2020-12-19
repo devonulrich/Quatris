@@ -7,6 +7,20 @@ const F_SIZE = 30;//full square side length
 export const S_SIZE = 13;//small square side length
 //S_SIZE is needed in ui.js for resizing the opponent canvas
 
+const SIDEBAR_BG_CLR = "#414848";
+const OPPONENT_BG_CLR = "#DDDDDD";
+const TEXT_CLR = "#112233";
+const BLACK_CLR = "#000000";
+
+const RED_CLR = "#FF5555";
+const GREEN_CLR = "#00FF99";
+const BLUE_CLR = "#0099FF";
+const ORANGE_CLR = "#FFAA44";
+const CYAN_CLR = "#66FFFF";
+const PINK_CLR = "#FF66FF";
+const YELLOW_CLR = "#FFFF66";
+const BG_CLR = "#303535";
+
 let gameCanvas = document.getElementById("gameCanvas");
 let gCtx = gameCanvas.getContext("2d");
 
@@ -65,7 +79,7 @@ function renderMainTable() {
 
 function renderSideBars() {
     //render the reserved piece
-    rCtx.fillStyle = "#414848";
+    rCtx.fillStyle = SIDEBAR_BG_CLR;
     rCtx.fillRect(0, 0, 140, 140);
     if(reservedPieceType != -1) {
          rCtx.drawImage(images[reservedPieceType], 0, 0);
@@ -74,7 +88,7 @@ function renderSideBars() {
     if(upcomingTypes.length != 5) return;
 
     //render the upcoming pieces
-    uCtx.fillStyle = "#414848";
+    uCtx.fillStyle = SIDEBAR_BG_CLR;
     uCtx.fillRect(0, 0, 140, 600);
     for(let n = 0; n < 5; n++) {
         uCtx.drawImage(images[upcomingTypes[n]], 0, 120 * n - 15);
@@ -82,7 +96,7 @@ function renderSideBars() {
 }
 
 function renderOpponents() {
-    oCtx.fillStyle = "#DDD";
+    oCtx.fillStyle = OPPONENT_BG_CLR;
     oCtx.fillRect(0, 0, opponentCanvas.width, opponentCanvas.height);
 
     let opponentIt = getOpponentTables();
@@ -102,7 +116,7 @@ function renderOpponents() {
 }
 
 function drawOpponent(startX, startY, table) {
-    oCtx.strokeStyle = "#000000";
+    oCtx.strokeStyle = BLACK_CLR;
     oCtx.lineWidth = "1";
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
@@ -114,19 +128,20 @@ function drawOpponent(startX, startY, table) {
 function drawOpponentText(x, y, text) {
     oCtx.font = "15px Arial";
     oCtx.textAlign = "center";
-    oCtx.fillStyle = "#123";
+    oCtx.fillStyle = TEXT_CLR;
     oCtx.fillText(text, x, y);
 }
 
 //x and y are the grid coordinates (not canvas coordinates)
 //xOff and yOff are the offsets of the entire grid
 function drawBlock(ctx, x, y, size, color, xOff = 0, yOff = 0) {
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = BLACK_CLR;
     ctx.fillStyle = color;
     ctx.fillRect(x * size + xOff, y * size + yOff, size, size);
     ctx.strokeRect(x * size + xOff, y * size + yOff, size, size);
 
-    if(color != "#404545") {
+    // block shading
+    if(color != "#303535") {
         ctx.fillStyle = "#00000080";
         ctx.fillRect(x * size + xOff, y * size + yOff + size*5/6, size, size*1/6);
         ctx.fillRect(x * size + xOff + size*5/6, y * size + yOff, size*1/6, size*5/6);
@@ -141,12 +156,12 @@ function getColor(type) {
     /* NOTE: color strings must be in full 6-digit form.
      * This is so the shadow pieces can be drawn with a new
      * opacity appended onto the strings */
-    if(type == 1) return "#FF5555";//red
-    if(type == 2) return "#00FF99";//green
-    if(type == 3) return "#0099FF";//blue
-    if(type == 4) return "#FFAA44";//orange
-    if(type == 5) return "#66FFFF";//cyan
-    if(type == 6) return "#FF66FF";//pink
-    if(type == 7) return "#FFFF66";//yellow
-    return "#404545";//black - default
+    if(type == 1) return RED_CLR;
+    if(type == 2) return GREEN_CLR;
+    if(type == 3) return BLUE_CLR;
+    if(type == 4) return ORANGE_CLR;
+    if(type == 5) return CYAN_CLR;
+    if(type == 6) return PINK_CLR;
+    if(type == 7) return YELLOW_CLR;
+    return BG_CLR;
 }
