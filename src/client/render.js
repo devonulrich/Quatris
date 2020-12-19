@@ -156,8 +156,8 @@ function getColor(type) {
     /* NOTE: color strings must be in full 6-digit form.
      * This is so the shadow pieces can be drawn with a new
      * opacity appended onto the strings */
-    if(type == 1) return RED_CLR;
-    if(type == 2) return GREEN_CLR;
+    if(type == 1) return GREEN_CLR;
+    if(type == 2) return RED_CLR;
     if(type == 3) return BLUE_CLR;
     if(type == 4) return ORANGE_CLR;
     if(type == 5) return CYAN_CLR;
