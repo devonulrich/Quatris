@@ -125,6 +125,16 @@ function drawBlock(ctx, x, y, size, color, xOff = 0, yOff = 0) {
     ctx.fillStyle = color;
     ctx.fillRect(x * size + xOff, y * size + yOff, size, size);
     ctx.strokeRect(x * size + xOff, y * size + yOff, size, size);
+
+    if(color != "#404545") {
+        ctx.fillStyle = "#00000080";
+        ctx.fillRect(x * size + xOff, y * size + yOff + size*5/6, size, size*1/6);
+        ctx.fillRect(x * size + xOff + size*5/6, y * size + yOff, size*1/6, size*5/6);
+        
+        ctx.fillStyle = "#FFFFFF80";
+        ctx.fillRect(x * size + xOff, y * size + yOff, size*5/6, size*1/6);
+        ctx.fillRect(x * size + xOff, y * size + yOff + size*1/6, size*1/6, size*4/6);
+    }
 }
 
 function getColor(type) {
