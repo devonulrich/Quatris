@@ -2,7 +2,7 @@
 
 import { updateOpponentWidth } from "./ui";
 
-let opponents = new Map();
+const opponents = new Map();
 
 let numOpponents = 0;
 
@@ -31,11 +31,3 @@ export function getOpponentTables() {
 export function getNumOpponents() {
     return numOpponents;
 }
-
-/*function emptyTable() {
-    let table = new Array(10);
-    for(let x = 0; x < 10; x++) {
-        table[x] = new Array(20).fill(0);
-    }
-    return table;
-}*/

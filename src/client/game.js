@@ -4,15 +4,18 @@ import { updateInput } from "./input";
 import { sendUpdate } from "./networking";
 
 let table;
+
+// TODO: replace with get functions
 export let activePiece;
 export let reservedPieceType = -1;
 
-export let upcomingTypes = [];
+export const upcomingTypes = [];
 
 const AUTO_DROP_INTERVAL = 1000;
 
 let randNumGen;
 
+// TODO: simplify & match with server
 export const State = {
     HOST_JOIN: 1,
     REG_JOIN: 2,
@@ -53,7 +56,7 @@ export function updateGame() {
 
     updateInput();
 
-    let currTime = new Date().getTime();
+    const currTime = new Date().getTime();
     if(currTime - activePiece.lastDropTime >= AUTO_DROP_INTERVAL) {
         activePiece.drop();
     }
@@ -89,7 +92,7 @@ function getRandomType() {
 }
 
 function getNextPiece() {
-    let n = upcomingTypes.shift();
+    const n = upcomingTypes.shift();
     upcomingTypes.push(getRandomType());
     return n;
 }

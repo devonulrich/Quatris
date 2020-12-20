@@ -21,20 +21,20 @@ const PINK_CLR = "#FF66FF";
 const YELLOW_CLR = "#FFFF66";
 const BG_CLR = "#303535";
 
-let gameCanvas = document.getElementById("gameCanvas");
-let gCtx = gameCanvas.getContext("2d");
+const gameCanvas = document.getElementById("gameCanvas");
+const gCtx = gameCanvas.getContext("2d");
 
-let reservedCanvas = document.getElementById("reservedCanvas");
-let rCtx = reservedCanvas.getContext("2d");
+const reservedCanvas = document.getElementById("reservedCanvas");
+const rCtx = reservedCanvas.getContext("2d");
 
-let upcomingCanvas = document.getElementById("upcomingCanvas");
-let uCtx = upcomingCanvas.getContext("2d");
+const upcomingCanvas = document.getElementById("upcomingCanvas");
+const uCtx = upcomingCanvas.getContext("2d");
 
-let opponentCanvas = document.getElementById("opponentCanvas");
-let oCtx = opponentCanvas.getContext("2d");
+const opponentCanvas = document.getElementById("opponentCanvas");
+const oCtx = opponentCanvas.getContext("2d");
 
 //index 0 is never used
-let images = [undefined];
+const images = [undefined];
 
 export function getImages() {
     for(let i = 1; i <= 7; i++) {
@@ -51,7 +51,7 @@ export function render() {
 
 function renderMainTable() {
     //render the table
-    let table = getTable();
+    const table = getTable();
     for(let x = 0; x < 10; x++) {
         for(let y = 0; y < 20; y++) {
             //add each block with its corresponding color
@@ -62,17 +62,17 @@ function renderMainTable() {
     if(activePiece == undefined) return;
 
     //render the active piece's shadow
-    let currColor = getColor(activePiece.type) + "80";//half opacity
-    let copyObj = activePiece.getDroppedObj();
+    let currColor = getColor(activePiece.type) + "70";//half opacity
+    const copyObj = activePiece.getDroppedObj();
     for(let i = 0; i < 4; i++) {
-        let block = copyObj.blocks[i];
+        const block = copyObj.blocks[i];
         drawBlock(gCtx, block.x, block.y, F_SIZE, currColor);
     }
 
     //render the active piece
     currColor = getColor(activePiece.type);
     for(let i = 0; i < 4; i++) {
-        let block = activePiece.blocks[i];
+        const block = activePiece.blocks[i];
         drawBlock(gCtx, block.x, block.y, F_SIZE, currColor);
     }
 }
@@ -99,17 +99,17 @@ function renderOpponents() {
     oCtx.fillStyle = OPPONENT_BG_CLR;
     oCtx.fillRect(0, 0, opponentCanvas.width, opponentCanvas.height);
 
-    let opponentIt = getOpponentTables();
+    const opponentIt = getOpponentTables();
     let oppNum = 0;
 
-    for(let opponent of opponentIt) {
+    for(const opponent of opponentIt) {
         //margin of 10px between each opponent screen
-        let x = Math.floor(oppNum / 2) * (S_SIZE * 10 + 10) + 10;
-        let y = (oppNum % 2) * 290 + 10;//just two rows
+        const x = Math.floor(oppNum / 2) * (S_SIZE * 10 + 10) + 10;
+        const y = (oppNum % 2) * 290 + 10;//just two rows
         drawOpponent(x, y, opponent.data);
 
-        let xMid = x + S_SIZE * 5;
-        let yBot = y + S_SIZE * 20 + 15;
+        const xMid = x + S_SIZE * 5;
+        const yBot = y + S_SIZE * 20 + 15;
         drawOpponentText(xMid, yBot, opponent.name);
         oppNum++;
     }

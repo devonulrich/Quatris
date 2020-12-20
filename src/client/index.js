@@ -6,8 +6,6 @@ import { initInput } from "./input";
 import { initNetworking } from "./networking";
 import { initUI } from "./ui";
 
-import io from "socket.io-client";
-
 //init sequence
 getImages();
 initTable();
@@ -16,7 +14,7 @@ initNetworking();
 initUI();
 
 //correct the opponent canvas if necessary
-let oppCanvas = document.getElementById("opponentCanvas");
+const oppCanvas = document.getElementById("opponentCanvas");
 if(oppCanvas.width != oppCanvas.clientWidth) {
     oppCanvas.width = oppCanvas.clientWidth;
 }
