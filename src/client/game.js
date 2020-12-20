@@ -13,7 +13,14 @@ const AUTO_DROP_INTERVAL = 1000;
 
 let randNumGen;
 
-let isPlaying = false;
+export let State = {
+    HOST_JOIN: 1,
+    REG_JOIN: 2,
+    HOST_START: 3,
+    REG_START: 4,
+    PLAYING: 5
+};
+State.currState = State.REG_JOIN;
 
 export function initTable() {
     table = new Array(10);
@@ -33,7 +40,7 @@ export function startPlaying(seed) {
         upcomingTypes.push(getRandomType());
     }
 
-    isPlaying = true;
+    State.currState = State.PLAYING;
 }
 
 export function getTable() {
@@ -42,7 +49,7 @@ export function getTable() {
 
 export function updateGame() {
     render();
-    if(!isPlaying) return;
+    if(State.currState != State.PLAYING) return;
 
     updateInput();
 

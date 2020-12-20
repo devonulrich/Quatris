@@ -8,8 +8,6 @@ import { initUI } from "./ui";
 
 import io from "socket.io-client";
 
-const AUTO_DROP_INTERVAL = 1000;
-
 //init sequence
 getImages();
 initTable();
