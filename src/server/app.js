@@ -23,14 +23,15 @@ io.on('connection', (socket) => {
 
     if(host == undefined) {
         host = socket.id;
-        client.isHost = true;
+        client.currState = State.HOST_JOIN;
         socket.emit("HOST", true);
     } else {
         for(let id of gamedata.keys()) {
             if(id == socket.id) continue;
 
             let cl = gamedata.get(id);
-            if(cl.isPlaying) socket.emit("JOIN", cl);
+            if(cl.currState != State.HOST_JOIN && 
+               cl.currState != State.REG_JOIN) socket.emit("JOIN", cl);
         }
     }
 
@@ -38,7 +39,9 @@ io.on('connection', (socket) => {
         console.log("disconnected: " + socket.id);
         gamedata.delete(socket.id);
 
-        if(client.isHost) {
+        // TODO: add host playing state
+        if(client.currState == State.HOST_JOIN ||
+           client.currState == State.HOST_START) {
             // must replace host
             if(gamedata.size == 0) {
                 host = undefined;
@@ -49,13 +52,15 @@ io.on('connection', (socket) => {
             }
         }
 
-        if(client.isPlaying) socket.broadcast.emit("LEAVE", socket.id);
+        if(client.currState != State.HOST_JOIN &&
+           client.currState != State.REG_JOIN) socket.broadcast.emit("LEAVE", socket.id);
     });
 
     socket.on("NAME", (name) => {
         //properties of client change in the map too
         client.name = name;
-        client.isPlaying = true;
+        if(client.currState == State.HOST_JOIN) client.currState = State.HOST_START;
+        else client.currState = State.REG_START;
         socket.broadcast.emit("JOIN", client);
         socket.join("playingRoom");
 
@@ -73,12 +78,19 @@ io.on('connection', (socket) => {
     });
 });
 
+const State = {
+    HOST_JOIN: 1,
+    REG_JOIN: 2,
+    HOST_START: 3,
+    REG_START: 4,
+    PLAYING: 5
+};
+
 class Client {
     constructor(id) {
         this.id = id;
         this.name = undefined;
-        this.isPlaying = false;
-        this.isHost = false;
+        this.currState = State.REG_JOIN;
         this.data = this.emptyTable();
     }
 

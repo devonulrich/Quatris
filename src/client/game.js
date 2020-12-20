@@ -13,7 +13,7 @@ const AUTO_DROP_INTERVAL = 1000;
 
 let randNumGen;
 
-export let State = {
+export const State = {
     HOST_JOIN: 1,
     REG_JOIN: 2,
     HOST_START: 3,
