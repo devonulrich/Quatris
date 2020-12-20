@@ -5,20 +5,20 @@ const webpackConfig = require('../../webpack.config.js');
 const middleware = require('webpack-dev-middleware');
 
 // webserver setup
-let compiler = webpack(webpackConfig);
+const compiler = webpack(webpackConfig);
 app.use(middleware(compiler));
-let server = app.listen(3000, () => console.log("running"));
+const server = app.listen(3000, () => console.log("running"));
 
 // game controller setup
-let io = require('socket.io')(server);
+const io = require('socket.io')(server);
 
-let gamedata = new Map();
+const gamedata = new Map();
 let host = undefined;
 
 io.on('connection', (socket) => {
     console.log("connected: " + socket.id + ", host is " + host);
 
-    let client = new Client(socket.id);
+    const client = new Client(socket.id);
     gamedata.set(socket.id, client);
 
     if(host == undefined) {
@@ -26,10 +26,10 @@ io.on('connection', (socket) => {
         client.isHost = true;
         socket.emit("HOST", true);
     } else {
-        for(let id of gamedata.keys()) {
+        for(const id of gamedata.keys()) {
             if(id == socket.id) continue;
 
-            let cl = gamedata.get(id);
+            const cl = gamedata.get(id);
             if(cl.currState != State.JOIN) socket.emit("JOIN", cl);
         }
     }
