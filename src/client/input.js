@@ -1,4 +1,5 @@
 import { activePiece } from "./game";
+import { handleEnterPress } from "./ui";
 
 let left;
 let right;
@@ -106,6 +107,10 @@ function keyUp(event) {
         return;
     case "c":
         c.setPressed(false);
+        return;
+    case "Enter":
+        // special case: handle enter press on menus
+        handleEnterPress();
     }
 }
 

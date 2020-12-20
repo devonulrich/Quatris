@@ -54,6 +54,12 @@ function hostStartClick() {
     hostStartGame();
 }
 
+export function handleEnterPress() {
+    // TODO: replace with a better state representation
+    if(!isJoined) nameSubmitClick();
+    else if(!hostScreen.classList.contains("invisible")) hostStartClick();
+}
+
 export function updateOpponentWidth() {
     let cols = Math.ceil(getNumOpponents() / 2);
     cols = Math.max(cols, 1);
