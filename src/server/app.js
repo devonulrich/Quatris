@@ -1,6 +1,4 @@
-const express = require('express');
-const app = express();
-const socketio = require('socket.io');
+const app = require('express')();
 
 const webpack = require('webpack');
 const webpackConfig = require('../../webpack.config.js');
@@ -12,7 +10,7 @@ app.use(middleware(compiler));
 let server = app.listen(3000, () => console.log("running"));
 
 // game controller setup
-let io = socketio(server);
+let io = require('socket.io')(server);
 
 let gamedata = new Map();
 let host = undefined;
