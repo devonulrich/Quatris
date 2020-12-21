@@ -10,6 +10,8 @@ let nameSubmit;
 let hostScreen;
 let hostStart;
 
+let lostScreen;
+
 let opponentCanvas;
 
 export function initUI() {
@@ -19,6 +21,8 @@ export function initUI() {
 
     hostScreen = document.getElementById("hostScreen");
     hostStart = document.getElementById("hostStart");
+
+    lostScreen = document.getElementById("lostScreen");
 
     opponentCanvas = document.getElementById("opponentCanvas");
     updateOpponentWidth();
@@ -30,20 +34,16 @@ export function initUI() {
 function nameSubmitClick() {
     nameScreen.classList.add("invisible");
     joinGame(nameInput.value);
-    if(State.currState == State.HOST_JOIN) {
-        showHostScreen();
-        State.currState = State.HOST_START;
-    } else {
-        State.currState = State.REG_START;
-    }
+
+    State.currState = State.START;
+    if(State.isHost) showHostScreen();
 }
 
 export function setHost() {
     console.log("You are now the host");
-    if(State.currState == State.REG_JOIN) {
-        State.currState = State.HOST_JOIN;
-    } else if(State.currState == State.REG_START) {
-        State.currState = State.HOST_START;
+    State.isHost = true;
+
+    if(State.currState == State.START) {
         showHostScreen();
     }
 }
@@ -57,10 +57,13 @@ function hostStartClick() {
     hostStartGame();
 }
 
+export function showLostScreen() {
+    lostScreen.classList.remove("invisible");
+}
+
 export function handleEnterPress() {
-    if(State.currState == State.HOST_JOIN ||
-       State.currState == State.REG_JOIN) nameSubmitClick();
-    else if(State.currState == State.HOST_START) hostStartClick();
+    if(State.currState == State.JOIN) nameSubmitClick();
+    else if(State.currState == State.START && State.isHost) hostStartClick();
 }
 
 export function updateOpponentWidth() {

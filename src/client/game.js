@@ -2,6 +2,7 @@ import seedrandom from "seedrandom";
 import { render } from "./render";
 import { updateInput } from "./input";
 import { sendUpdate } from "./networking";
+import { showLostScreen } from "./ui";
 
 let table;
 
@@ -15,15 +16,15 @@ const AUTO_DROP_INTERVAL = 1000;
 
 let randNumGen;
 
-// TODO: simplify & match with server
 export const State = {
-    HOST_JOIN: 1,
-    REG_JOIN: 2,
-    HOST_START: 3,
-    REG_START: 4,
-    PLAYING: 5
+    JOIN: 1,
+    START: 2,
+    PLAYING: 3,
+    LOST: 4,
+
+    currState: 1,
+    isHost: false,
 };
-State.currState = State.REG_JOIN;
 
 export function initTable() {
     table = new Array(10);
@@ -62,7 +63,8 @@ export function updateGame() {
     }
 }
 
-//checks the table for any lines that need to be cleared
+// checks the table for any lines that need to be cleared
+// also checks if the game is lost
 function checkTable() {
     for(let y = 0; y < 20; y++) {
         let isFullRow = true;
@@ -78,6 +80,14 @@ function checkTable() {
             clearLine(y);
         }
     }
+
+    if(table[4][0] != 0 || table[5][0] != 0) {
+        State.currState = State.LOST;
+        showLostScreen();
+        return false;
+    }
+
+    return true;
 }
 
 function clearLine(y) {
@@ -109,6 +119,8 @@ class ActivePiece {
         this.lastDropTime = new Date().getTime();
 
         this.canReserve = canReserve;
+        
+        this.autoMoveUp();
     }
 
     //direction: 1 = to the right, -1 = to the left
@@ -244,7 +256,10 @@ class ActivePiece {
             table[x][y] = this.type;
         }
 
-        checkTable();
+        if(!checkTable()) {
+            sendUpdate();
+            return;
+        }
 
         activePiece = new ActivePiece(getNextPiece());
 
