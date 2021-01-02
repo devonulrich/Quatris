@@ -17,11 +17,13 @@ const AUTO_DROP_INTERVAL = 1000;
 let randNumGen;
 
 export const State = {
+    // state constants
     JOIN: 1,
     START: 2,
     PLAYING: 3,
     LOST: 4,
 
+    // mutable variables
     currState: 1,
     isHost: false,
 };
@@ -45,6 +47,9 @@ export function startPlaying(seed) {
     }
 
     State.currState = State.PLAYING;
+
+    // acknowledge that we're playing
+    sendUpdate();
 }
 
 export function getTable() {

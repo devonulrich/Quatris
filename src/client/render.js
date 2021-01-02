@@ -1,4 +1,4 @@
-import { getTable, activePiece, reservedPieceType, upcomingTypes } from "./game";
+import { getTable, activePiece, reservedPieceType, upcomingTypes, State } from "./game";
 import { getOpponentTables } from "./opponents";
 
 const imgPath = require.context("./assets");
@@ -11,6 +11,8 @@ const SIDEBAR_BG_CLR = "#414848";
 const OPPONENT_BG_CLR = "#DDDDDD";
 const TEXT_CLR = "#112233";
 const BLACK_CLR = "#000000";
+
+const OVERLAY_CLR = "#00000080";
 
 const RED_CLR = "#FF5555";
 const GREEN_CLR = "#00FF99";
@@ -107,6 +109,12 @@ function renderOpponents() {
         const x = Math.floor(oppNum / 2) * (S_SIZE * 10 + 10) + 10;
         const y = (oppNum % 2) * 290 + 10;//just two rows
         drawOpponent(x, y, opponent.data);
+
+        // add a dark overlay if this opponent isn't currently playing
+        if(opponent.currState != State.PLAYING) {
+            oCtx.fillStyle = OVERLAY_CLR;
+            oCtx.fillRect(x, y, 10 * S_SIZE, 20 * S_SIZE);
+        }
 
         const xMid = x + S_SIZE * 5;
         const yBot = y + S_SIZE * 20 + 15;

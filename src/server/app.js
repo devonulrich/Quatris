@@ -66,10 +66,18 @@ io.on('connection', (socket) => {
     socket.on("HOST_START", () => {
         io.to("playingRoom").emit("START", Math.random());
         console.log("game started");
+
+        for(const cl of gamedata.values()) {
+            if(cl.currState == State.START) cl.currState = State.PLAYING;
+        }
     });
 
     socket.on("CL_UPDATE", (data) => {
         client.data = data;
+
+        // check to see if the client got knocked out
+        if(data[4][0] != 0 || data[5][0] != 0) client.currState = State.LOST;
+
         socket.broadcast.emit("UPDATE", client);
     });
 });
@@ -78,6 +86,7 @@ const State = {
     JOIN: 1,
     START: 2,
     PLAYING: 3,
+    LOST: 4,
 };
 
 class Client {
