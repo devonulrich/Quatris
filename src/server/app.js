@@ -52,6 +52,11 @@ io.on('connection', (socket) => {
 
         if(client.currState != State.JOIN) 
             socket.broadcast.emit("LEAVE", socket.id);
+
+        if(client.currState == State.PLAYING) {
+            players--;
+            if(players <= 1) endGame();
+        }
     });
 
     socket.on("NAME", (name) => {
