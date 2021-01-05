@@ -10,6 +10,8 @@ let nameSubmit;
 let hostScreen;
 let hostStart;
 
+let waitScreen;
+
 let lostScreen;
 
 let opponentCanvas;
@@ -21,6 +23,8 @@ export function initUI() {
 
     hostScreen = document.getElementById("hostScreen");
     hostStart = document.getElementById("hostStart");
+
+    waitScreen = document.getElementById("waitScreen");
 
     lostScreen = document.getElementById("lostScreen");
 
@@ -37,6 +41,7 @@ function nameSubmitClick() {
 
     State.currState = State.START;
     if(State.isHost) showHostScreen();
+    else showWaitScreen();
 }
 
 export function setHost() {
@@ -50,6 +55,14 @@ export function setHost() {
 
 function showHostScreen() {
     hostScreen.classList.remove("invisible");
+}
+
+function showWaitScreen() {
+    waitScreen.classList.remove("invisible");
+}
+
+export function hideWaitScreen() {
+    waitScreen.classList.add("invisible");
 }
 
 function hostStartClick() {

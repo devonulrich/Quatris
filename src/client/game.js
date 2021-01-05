@@ -2,7 +2,7 @@ import seedrandom from "seedrandom";
 import { render } from "./render";
 import { updateInput } from "./input";
 import { sendUpdate } from "./networking";
-import { showLostScreen } from "./ui";
+import { showLostScreen, hideWaitScreen } from "./ui";
 
 let table;
 
@@ -47,6 +47,7 @@ export function startPlaying(seed) {
     }
 
     State.currState = State.PLAYING;
+    hideWaitScreen();
 
     // acknowledge that we're playing
     sendUpdate();
