@@ -49,6 +49,7 @@ export function setHost() {
     State.isHost = true;
 
     if(State.currState == State.START) {
+        hideWaitScreen();
         showHostScreen();
     }
 }
