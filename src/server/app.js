@@ -14,6 +14,7 @@ const io = require('socket.io')(server);
 
 const gamedata = new Map();
 let host = undefined;
+let players = 0;
 
 io.on('connection', (socket) => {
     console.log("connected: " + socket.id + ", host is " + host);
@@ -67,8 +68,11 @@ io.on('connection', (socket) => {
         io.to("playingRoom").emit("START", Math.random());
         console.log("game started");
 
+        players = 0;
         for(const cl of gamedata.values()) {
-            if(cl.currState == State.START) cl.currState = State.PLAYING;
+            if(cl.currState != State.START) continue;
+            cl.currState = State.PLAYING;
+            players++;
         }
     });
 
@@ -76,11 +80,30 @@ io.on('connection', (socket) => {
         client.data = data;
 
         // check to see if the client got knocked out
-        if(data[4][0] != 0 || data[5][0] != 0) client.currState = State.LOST;
+        if(data[4][0] != 0 || data[5][0] != 0) {
+            client.currState = State.LOST;
+            players--;
+            console.log(players + " players left");
+
+            if(players <= 1) endGame();
+        }
 
         socket.broadcast.emit("UPDATE", client);
     });
 });
+
+function endGame() {
+    let winner;
+    for(const cl of gamedata.values()) {
+        if(cl.currState == State.PLAYING) {
+            winner = cl.name;
+            break;
+        }
+    }
+
+    io.to("playingRoom").emit("END", winner);
+    console.log(winner + " won");
+};
 
 const State = {
     JOIN: 1,
