@@ -22,6 +22,8 @@ export const State = {
     START: 2,
     PLAYING: 3,
     LOST: 4,
+    END_WON: 5,
+    END_LOST: 6,
 
     // mutable variables
     currState: 1,

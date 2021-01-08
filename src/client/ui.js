@@ -75,6 +75,14 @@ export function showLostScreen() {
     lostScreen.classList.remove("invisible");
 }
 
+export function endGame(winner) {
+    if(State.currState == State.PLAYING) {
+        State.currState = State.END_WON;
+    } else {
+        State.currState = State.END_LOST;
+    }
+}
+
 export function handleEnterPress() {
     if(State.currState == State.JOIN) nameSubmitClick();
     else if(State.currState == State.START && State.isHost) hostStartClick();
