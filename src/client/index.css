@@ -107,6 +107,7 @@ html,body {
     margin: 150px 25px 0px 25px;
     padding: 0px;
     text-align: center;
+    white-space: pre-line; /* for newline characters in endGame() */
     font-family: monospace;
     font-size: 20px;
     color: white;

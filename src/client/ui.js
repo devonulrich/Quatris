@@ -11,8 +11,11 @@ let hostScreen;
 let hostStart;
 
 let waitScreen;
-
 let lostScreen;
+
+let endScreen;
+let endText;
+let hostRestart;
 
 let opponentCanvas;
 
@@ -25,8 +28,11 @@ export function initUI() {
     hostStart = document.getElementById("hostStart");
 
     waitScreen = document.getElementById("waitScreen");
-
     lostScreen = document.getElementById("lostScreen");
+
+    endScreen = document.getElementById("endScreen");
+    endText = document.getElementById("endText");
+    hostRestart = document.getElementById("hostRestart");
 
     opponentCanvas = document.getElementById("opponentCanvas");
     updateOpponentWidth();
@@ -78,9 +84,21 @@ export function showLostScreen() {
 export function endGame(winner) {
     if(State.currState == State.PLAYING) {
         State.currState = State.END_WON;
+        endText.textContent = "You won! \r\n";
     } else {
+        lostScreen.classList.add("invisible");
         State.currState = State.END_LOST;
+        endText.textContent = winner + " won. \r\n";
     }
+
+    if(State.isHost) {
+        hostRestart.classList.remove("invisible");
+    } else {
+        endText.textContent += "Waiting for the host...";
+        hostRestart.classList.add("invisible");
+    }
+
+    endScreen.classList.remove("invisible");
 }
 
 export function handleEnterPress() {
