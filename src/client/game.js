@@ -44,6 +44,7 @@ export function startPlaying(seed) {
     reservedPieceType = -1;
 
     //fill upcoming array with random pieces
+    upcomingTypes.length = 0;
     for(let n = 0; n < 5; n++) {
         upcomingTypes.push(getRandomType());
     }

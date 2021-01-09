@@ -39,6 +39,7 @@ export function initUI() {
 
     nameSubmit.addEventListener("click", nameSubmitClick);
     hostStart.addEventListener("click", hostStartClick);
+    hostRestart.addEventListener("click", hostStartClick);
 }
 
 function nameSubmitClick() {
@@ -68,12 +69,16 @@ function showWaitScreen() {
     waitScreen.classList.remove("invisible");
 }
 
+// TODO: rename for clarity
 export function hideWaitScreen() {
     waitScreen.classList.add("invisible");
+    endScreen.classList.add("invisible");
 }
 
+// TODO: same as above
 function hostStartClick() {
     hostScreen.classList.add("invisible");
+    endScreen.classList.add("invisible");
     hostStartGame();
 }
 
