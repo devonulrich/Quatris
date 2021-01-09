@@ -84,11 +84,11 @@ export function showLostScreen() {
 export function endGame(winner) {
     if(State.currState == State.PLAYING) {
         State.currState = State.END_WON;
-        endText.textContent = "You won! \r\n";
+        endText.textContent = "You won! \r\n\r\n";
     } else {
         lostScreen.classList.add("invisible");
         State.currState = State.END_LOST;
-        endText.textContent = winner + " won. \r\n";
+        endText.textContent = winner + " won. \r\n\r\n";
     }
 
     if(State.isHost) {
